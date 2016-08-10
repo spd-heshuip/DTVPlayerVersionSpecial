@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/commonListItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:layout_margin="1dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/delete"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/red"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="17sp"
+            android:text="@string/delete"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
+            android:id="@+id/top"
+            android:layout_toLeftOf="@id/delete"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/grey600"
+            android:layout_centerVertical="true"
+            android:textSize="17sp"
+            android:text="@string/top"
+            tools:ignore="RtlHardcoded" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        tools:ignore="UselessParent">
+
+        <View
+            android:id="@+id/drag_handle"
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|left"
+            android:background="@color/grey600"
+            android:clickable="true" />
+
+        <RelativeLayout
+            android:id="@+id/program_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="25dp"
+            android:background="@color/grey900"
+            android:layout_gravity="center_vertical"
+            tools:ignore="RtlHardcoded">
+
+            <TextView
+                android:id="@+id/channel_freq"
+                android:padding="5dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/program_name_text_size_grid"
+                tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                android:id="@+id/chanel_name"
+                android:layout_toRightOf="@id/channel_freq"
+                android:padding="5dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/program_name_text_size_grid"
+                tools:ignore="RtlHardcoded"/>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+
+
+</FrameLayout>

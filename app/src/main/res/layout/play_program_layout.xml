@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ProgressWheel="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/player_surface_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black">
+
+        <FrameLayout
+            android:id="@+id/player_surface_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:foregroundGravity="clip_horizontal|clip_vertical" >
+
+            <SurfaceView
+                android:id="@+id/player_surface"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_gravity="center" />
+
+            <SurfaceView
+                android:id="@+id/subtitles_surface"
+                android:layout_width="1dp"
+                android:layout_height="1dp"
+                />
+
+            <com.eardatek.player.dtvplayer.widget.ProgressWheel
+                android:id="@+id/pw_progress"
+                android:layout_width="@dimen/progresswheel_width_dimens"
+                android:layout_height="@dimen/progress_height_dimens"
+                android:visibility="invisible"
+                ProgressWheel:barColor="@color/transparent"
+                ProgressWheel:barsLength="160dp"
+                ProgressWheel:barWidth="10dp"
+                ProgressWheel:rimColor="@color/cadetblue"
+                ProgressWheel:rimWidth="5dp"
+                ProgressWheel:contourColor="@color/black"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/program_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_marginBottom="60dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center"
+                android:textSize="25sp"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/play"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:scaleType="centerInside"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:tag="play"
+                android:src="@drawable/icon_play_64"/>
+
+            <FrameLayout
+                android:id="@+id/volumeorbright_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/operation_bg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/video_volumn_bg"/>
+
+                <TextView
+                    android:id="@+id/text_percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/progresswheel_text_size"
+                    android:gravity="center"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:textColor="@color/white"/>
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/video_title_framelayout" />
+
+        <include
+            android:id="@+id/include_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/video_bottom_title_layout"
+            android:layout_gravity="bottom"/>
+
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </android.support.v4.view.ViewPager>
+
+    <FrameLayout
+        android:visibility="gone"
+        android:id="@+id/realtabcontent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <android.support.v4.app.FragmentTabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0">
+        </FrameLayout>
+
+
+    </android.support.v4.app.FragmentTabHost>
+
+
+</LinearLayout>

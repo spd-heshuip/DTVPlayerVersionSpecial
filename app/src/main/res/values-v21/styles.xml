@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/earda_background</item>
+        <item name="colorPrimaryDark">@color/earda_background</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:navigationBarColor">@color/earda_background</item>
+        <!-- 窗口的背景颜色 -->
+        <item name="android:windowBackground">@null</item>
+
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="commonListItemStyle">
+        <item name="android:elevation">@dimen/list_item_elevation</item>
+        <item name="android:outlineProvider">bounds</item>
+    </style>
+</resources>

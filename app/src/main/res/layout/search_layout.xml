@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey800"
+    android:padding="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@drawable/photo_advance_search_normal"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/search_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:text="@string/search_all"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_gravity="center_horizontal"/>
+
+        <TextView
+            android:id="@+id/tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:padding="5dp"
+            android:text="@string/searchall_tips"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/search_all_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"
+            android:text="@string/search_button"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:background="@drawable/photo_camera_selector"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="4dp"
+        android:background="@color/grey800"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@drawable/photo_advance_search_normal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/advance_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="2dp"
+            android:padding="5dp"
+            android:text="@string/advance_text"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_gravity="center_horizontal"/>
+
+        <com.eardatek.player.dtvplayer.widget.CustomEditText
+            android:id="@+id/freq_edit"
+            style="@style/customEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:padding="5dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:hint="@string/advance_search_tips"
+            android:textSize="15sp"
+            android:inputType="phone" />
+
+        <Button
+            android:id="@+id/advance_search_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="2dp"
+            android:text="@string/search_button"
+            android:textSize="15sp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:textColor="@color/white"
+            android:background="@drawable/photo_camera_selector"/>
+
+
+    </LinearLayout>
+</LinearLayout>

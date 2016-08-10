@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.eardatek.player.dtvplayer">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
+    <application
+        android:name=".system.DTVApplication"
+        android:allowBackup="true"
+        android:largeHeap="true"
+        android:icon="@mipmap/tv_14"
+        android:label="@string/app_name"
+        tools:replace = "android:icon"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".actitivy.HomePageActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".actitivy.BaseActivity"/>
+        <activity android:name=".actitivy.EardatekVersion2Activity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="sensor"/>
+        <activity android:name=".actitivy.ScanChannelActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
+    </application>
+
+</manifest>

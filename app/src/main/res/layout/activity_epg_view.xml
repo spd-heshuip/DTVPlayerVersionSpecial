@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+	<RelativeLayout
+	    android:layout_width="wrap_content"
+	    android:layout_height="45dp" >
+	    
+	    <TextView
+				android:id="@+id/textCaption"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentTop="true"
+	            android:layout_centerInParent="true"
+	            android:background="@drawable/mmtitle_bg"
+	            android:gravity="center"
+	            android:text="Program Guide"
+	            android:textAppearance="?android:attr/textAppearanceLarge"
+	            android:textColor="@color/white" />
+
+		<ImageView
+		    android:id="@+id/go_back"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBottom="@+id/refresh"
+		    android:layout_alignParentLeft="true"
+		    android:layout_marginLeft="4dp"
+		    android:maxHeight="30dp"
+		    android:maxWidth="30dp"
+		    android:paddingBottom="5dp"
+		    android:paddingLeft="10dp"
+		    android:paddingRight="10dp"
+		    android:paddingTop="5dp"
+		    android:src="@drawable/gplus_back" />
+
+		<ImageView
+		    android:id="@+id/refresh"
+		    style="@style/TipsFontStyle.Small"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentRight="true"
+		    android:layout_centerVertical="true"
+		    android:layout_marginRight="4dp"
+		    android:maxHeight="50dp"
+		    android:maxWidth="50dp"
+		    android:paddingLeft="10dp"
+		    android:paddingRight="10dp"
+		    android:scaleType="centerInside"
+		    android:src="@drawable/gplus_refresh" />
+	
+	</RelativeLayout>
+    
+    <ListView
+        android:id="@+id/listViewEPG"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+    </ListView>
+    
+</LinearLayout>
