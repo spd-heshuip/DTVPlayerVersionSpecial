@@ -24,6 +24,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -334,7 +336,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
 
     @Override
     protected void onStart() {
-        LogUtil.i(TAG,"onstart");
+        super.onStart();
         if (mOnLayoutChangeListener == null) {
             mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
                 @Override
@@ -342,7 +344,8 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                                            int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                     if (left != oldLeft || top != oldTop || right != oldRight || bottom != oldBottom){
                         LogUtil.i(TAG,"setSurfaceLayout");
-                        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+//                        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
+                        changeSurfaceLayout();
                     }
                 }
             };
@@ -350,7 +353,6 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         mSurfaceFrame.addOnLayoutChangeListener(mOnLayoutChangeListener);
         //set surface size
         setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
-        super.onStart();
     }
 
     @Override
@@ -409,6 +411,11 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         mChanelList.setAdapter(mChanelAdapter);
 
         mDataProvider = new TvDataProvider();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        List<Fragment> list = fragmentManager.getFragments();
+        for (Fragment fragment : list){
+            fragment.onActivityResult(requestCode,resultCode,data);
+        }
     }
 
     public void stopPlaying() {
@@ -467,7 +474,6 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         mScreenOrientation = Configuration.ORIENTATION_LANDSCAPE;
         WindowUtil.fullScreen(true, this);
         updateChanelList();
-        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
     }
 
     private void animateIn(FloatingActionButton button) {
@@ -501,7 +507,6 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
 
         isLockScreen = false;
         WindowUtil.fullScreen(false, this);
-        setSurfaceLayout(mVideoWidth, mVideoHeight, mVideoVisibleWidth, mVideoVisibleHeight, mSarNum, mSarDen);
     }
 
 
@@ -569,7 +574,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
 
 
         mBottomTitleLayout = (RelativeLayout) findViewById(R.id.listlayout);
-        mBottomTitleLayout.setAlpha(0.5f);
+        mBottomTitleLayout.setAlpha(0.9f);
         mFreqText = (TextView) findViewById(R.id.program_freq);
         mChanelList = (RecyclerView) findViewById(R.id.channel_list);
         mFullScreen = (ImageView) findViewById(R.id.fullscreen);
@@ -603,13 +608,13 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                 mScreenOrientation = getResources().getConfiguration().orientation;
                 mClick = true;
                 if (!mIsLand && mPlaying) {
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     changeToLandscape();
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     mIsLand = true;
                     mClickLand = false;
                 } else {
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     changeToPortRait();
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     mIsLand = false;
                     mClickPort = false;
                 }
@@ -618,7 +623,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
 
         mGoBackButton.setVisibility(View.GONE);
         mCurTime.setVisibility(View.GONE);
-        mTitleBar.setAlpha(0.5f);
+        mTitleBar.setAlpha(0.9f);
 
 
         mLoadingProgress = (ProgressWheel) findViewById(R.id.pw_progress);
@@ -1339,15 +1344,23 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
 
             mTitleBar.setVisibility(View.VISIBLE);
             mBottomTitleLayout.setVisibility(View.VISIBLE);
+            ObjectAnimator.ofFloat(mTitleBar,"alpha",0.0f,0.5f).setDuration(1000).start();
+            ObjectAnimator.ofFloat(mBottomTitleLayout,"alpha",0.0f,0.5f).setDuration(1000).start();
             if (!mLoadingProgress.isSpinning())
                 mPlay.setVisibility(View.VISIBLE);
             mHandler.sendEmptyMessageDelayed(FADE_OUT, 5000);
         } else {
             mIsLock.setVisibility(View.INVISIBLE);
+            ObjectAnimator.ofFloat(mTitleBar,"alpha",0.5f,0.0f).setDuration(1000).start();
             mTitleBar.setVisibility(View.INVISIBLE);
-            mBottomTitleLayout.setVisibility(View.INVISIBLE);
             if (mPlaying)
                 mPlay.setVisibility(View.INVISIBLE);
+            if(mChanelList.getScrollState() == RecyclerView.SCROLL_STATE_IDLE){
+                ObjectAnimator.ofFloat(mBottomTitleLayout,"alpha",0.5f,0.0f).setDuration(1000).start();
+                mBottomTitleLayout.setVisibility(View.INVISIBLE);
+            }
+            else
+                mHandler.sendEmptyMessageDelayed(FADE_OUT, 5000);
         }
     }
 
@@ -1614,12 +1627,13 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
 
         // 隐藏
         mHandler.removeMessages(VOLUMBRIGHT_FADE_OUT);
-        mHandler.sendEmptyMessageDelayed(VOLUMBRIGHT_FADE_OUT, 500);
+        mHandler.sendEmptyMessageDelayed(VOLUMBRIGHT_FADE_OUT, 5000);
     }
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener{
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            showHideTitleBar(false);
             float mOldX = e1.getX(), mOldY = e1.getY();
             int y = (int) e2.getRawY();
             int x = (int) e2.getRawX();
@@ -1633,9 +1647,9 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
             if (mSurfaceDisplayRange == 0)
                 mSurfaceDisplayRange = Math.min(windowHeight,windowWidth);
 
-            if (mOldX > windowWidth / 2.0 && Math.abs(mOldY - y) > Math.abs((mOldX - x)) && Math.abs(mOldY - y) > 80)// 右边滑动
+            if (mOldX > windowWidth / 2.0 && Math.abs(mOldY - y) > Math.abs((mOldX - x)) && Math.abs(mOldY - y) > 25)// 右边滑动
                 onVolumeSlide(y_changed);
-            else if (mOldX < windowWidth / 2.0 && Math.abs(mOldY - y) > Math.abs(mOldX - x) && Math.abs(mOldY - y) > 80)// 左边滑动
+            else if (mOldX < windowWidth / 2.0 && Math.abs(mOldY - y) > Math.abs(mOldX - x) && Math.abs(mOldY - y) > 50)// 左边滑动
                 onBrightnessSlide(y_changed);
             return true;
         }
@@ -1858,6 +1872,8 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
             case MotionEvent.ACTION_MOVE:
                 break;
             case MotionEvent.ACTION_UP:
+                if (mVolumnOrBrightLayout.isShown())
+                    break;
                 float dx = event.getRawX() - mTouchX;
                 float dy = event.getRawY() - mTouchY;
                 if (Math.abs(dx) > 150 && Math.abs(dx) > Math.abs(dy * 2) && !isSwitching && mScreenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -1944,7 +1960,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (isSwitching){
-            CustomToast.showToast(this,"正在切换节目，请稍后！",1000);
+            CustomToast.showToast(this,"正在切换节目，请稍等！",1000);
             return true;
         }
         return super.dispatchTouchEvent(ev);
