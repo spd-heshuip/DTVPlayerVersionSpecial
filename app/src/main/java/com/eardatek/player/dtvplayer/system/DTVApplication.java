@@ -10,14 +10,21 @@ import com.eardatek.player.dtvplayer.util.LogUtil;
 
 public class DTVApplication extends Application {
     public final static String TAG = "EardatekVersion2";
+
+    public static final int WIFI_REQUEST_CODE = 1;
+    public static final int SCAN_CHANNEL_REQUEST_CODE = 2;
+    public static final String SURFACE_HEIGHT = "surface_height";
+
+    public static StringBuffer WIFI_NAME = null;
+
     private static DTVApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(getApplicationContext());
         ChannelInfoDB.getInstance();
     }
 
@@ -25,7 +32,7 @@ public class DTVApplication extends Application {
     public void onLowMemory() {
         super.onLowMemory();
         LogUtil.i(TAG, "System is running low on memory");
-
+//        System.gc();
 //        BitmapCache.getInstance().clear();
     }
 
@@ -37,5 +44,13 @@ public class DTVApplication extends Application {
     public static Resources getAppResources()
     {
         return instance.getResources();
+    }
+
+    public static void setWifiName(String wifiName) {
+        WIFI_NAME = new StringBuffer(wifiName);
+    }
+
+    public static StringBuffer getWifiName() {
+        return WIFI_NAME;
     }
 }

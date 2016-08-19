@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -219,16 +220,8 @@ public final class NetTunerCtrl {
 		return true ;
 	}
 
-	public boolean reconnect() {
-		boolean bOK = connectToServer();
-		if( !bOK )
-			return false ;
-				
-		bOK = login();
-		if( !bOK )
-			return false ;
-		
-		return true ;	
+	public void reconnect() {
+        mSocket = null;
 	}
 	
 	public void stop() {
@@ -444,7 +437,18 @@ public final class NetTunerCtrl {
 
 		return true ;
 	}
-	
+
+	/**
+	 * check if device lockked the some frequency point
+	 * @return
+	 */
+	public int isSignalLockAndStreamServerAlive(){
+		String req = "<msg type='Check_Lock_req'></msg>";
+		req = req.replace('\'', '\"' );
+		String ack = exchangeMessage( req ,false);
+		return getRetValue( ack ) ;
+	}
+
 	public boolean isServerAvaible() {
 		if( mSocket == null ){
             isFirstLogin = true;
@@ -452,6 +456,19 @@ public final class NetTunerCtrl {
         }
 
 		return true ;
+	}
+
+	public boolean isServerAlive(){
+		String req = "isalive";
+		byte [] string = req.getBytes();
+		try {
+			if (mSocket != null)
+				mSocket.getOutputStream().write( string );
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
     public boolean isConnectedToDevice(){
@@ -519,22 +536,31 @@ public final class NetTunerCtrl {
 							byte[] buffer = new byte[1024];
 							while( !mStopped && !mThreadHeartBeat.isInterrupted() && hearBeatSocket.isConnected()
 									&& mSocket != null && mSocket.isConnected() ) {
-                                int len = is.read(buffer);
-                                if (len < 0){
-                                    len = 0;
-                                    LogUtil.i("EardatekVersion2","receive the heartbeat fail!");
-                                }
-                                String isFail = new String(buffer,0,len);
-                                if (isFail.contains("send data fail"))
-                                    mHandler.sendEmptyMessage(3);
-                                os.write(buffer) ;
+								try{
+									int len = is.read(buffer);
+									if (len < 0){
+										len = 0;
+										LogUtil.i("EardatekVersion2","receive the heartbeat fail!");
+										mSocket.close();
+										mSocket = null;
+										mHandler.sendEmptyMessage(4);
+									}
+									String isFail = new String(buffer,0,len);
+									if (isFail.contains("send data fail"))
+										mHandler.sendEmptyMessage(3);
+									os.write(buffer) ;
+								}catch (IOException e){
+									e.printStackTrace();
+								}
+
 							}
                             hearBeatSocket.close() ;
                             isConnectedDevice = false;
 						}
-				}catch (SocketException e1){
+				}
+				catch (SocketException e1){
                     e1.printStackTrace();
-                    if (!mSocket.isConnected()){
+					if (mSocket == null || !mSocket.isConnected()){
                         mHandler.sendEmptyMessage(4);
                         try {
                             mSocket.close();
@@ -547,11 +573,14 @@ public final class NetTunerCtrl {
 				catch( IOException e) {
 					e.printStackTrace() ;
                     LogUtil.i("EardatekVersion2","lose connect to server!");
-				}
-				try{
-					Thread.sleep(200);
-				} catch(InterruptedException e) {
-					return;
+					if(!mSocket.isConnected() || mSocket == null){
+						try {
+							mSocket.close();
+							mSocket = null;
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
 				}
 			}
 

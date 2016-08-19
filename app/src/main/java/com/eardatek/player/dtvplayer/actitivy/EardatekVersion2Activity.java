@@ -85,6 +85,7 @@ import com.eardatek.player.dtvplayer.util.ListUtil;
 import com.eardatek.player.dtvplayer.util.LogUtil;
 import com.eardatek.player.dtvplayer.util.NetTunerCtrl;
 import com.eardatek.player.dtvplayer.util.NetworkUtil;
+import com.eardatek.player.dtvplayer.util.PreferencesUtils;
 import com.eardatek.player.dtvplayer.util.StringUtil;
 import com.eardatek.player.dtvplayer.util.WeakHandler;
 import com.eardatek.player.dtvplayer.util.WindowUtil;
@@ -128,6 +129,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
     private static final int SET_TITLE = 5;
     private static final int START_PROGRESS_WHEEL = 6;
     private static final int STOP_PROGRESS_WHEEL = 7;
+    private static final int SHOW_NO_SIGNAL_TIPS = 8;
     private static final int NO_SIGNAL = 9;
     private static final int HIDE_PLAY_ICON = 10;
     private static final int VOLUMBRIGHT_FADE_OUT = 11;
@@ -140,6 +142,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
     private static final int PARSE_PID_FAIL = 20;
     private static final int CHANGE_PROGRAM_DELAY = 21;
     private static final int IS_SURCAFACE_LAYOUT = 22;
+    private static final int HIDE_NO_SIGNAL_TIPS = 23;
 
     /**
      * max volume
@@ -199,6 +202,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
 
     private FrameLayout mTitleBar;
     private TextView mTitle;
+    private FrameLayout mNoSignalTips;
     private ImageView mGoBackButton;
     private ImageView mTvSignalStrengthButton;
     private TextView mVideoSizeButton;
@@ -260,7 +264,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
     private TvDataProvider mDataProvider;
 
     private boolean isLockScreen;
-    private boolean isLayoutSurface;
+    private boolean isFirstLayout = true;
 
     private static final float STEP_VOLUME = 2f;// 协调音量滑动时的步长，避免每次滑动都改变，导致改变过快
     private float mBrightness = -1f; // 亮度
@@ -282,6 +286,8 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         initViewPager();
         initFloatButton();
 
+        showHideTitleBar(false);
+
         EventBus.getDefault().register(this);
 
         startListener();
@@ -289,7 +295,6 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         startMonitorBatteryState();
 
         registerWifiReceiver();
-        showHideTitleBar(false);
 
         mScreenListener = new ScreenListener(this);
         mScreenListener.begin(new ScreenListener.ScreenStateListener() {
@@ -308,12 +313,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
             public void onUserPresent() {
                 LogUtil.i(TAG,"onUserPresent");
 //                isLockScreen = false;
-                if (!mPlaying && mScreenOrientation ==
-                        Configuration.ORIENTATION_LANDSCAPE){
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                    changeToLandscape();
-                }else if(!mPlaying && mScreenOrientation ==
-                        Configuration.ORIENTATION_PORTRAIT){
+                if (!mPlaying){
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     changeToPortRait();
                 }
@@ -442,7 +442,9 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         }
         if (requestCode == DTVApplication.WIFI_REQUEST_CODE){
             String wifiName = NetworkUtil.getWifiName(getApplicationContext());
+            LogUtil.i(TAG,"wifi name:" + wifiName);
             if (wifiName == null || !wifiName.contains("MobileTV_")){
+                LogUtil.i(TAG,"showWifiDialog");
                 showWifiDialog();
             }
         }
@@ -596,7 +598,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         mVolumOrBrightness = (ImageView) findViewById(R.id.operation_bg);
         mProgramName = (TextView)findViewById(R.id.program_name);
         mIsLock = (ImageView) findViewById(R.id.lock_unlock);
-
+        mNoSignalTips = (FrameLayout) findViewById(R.id.no_signal_layout);
 
         mVolumnOrBrightLayout.setAlpha(0.6f);
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -643,11 +645,13 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                 if (!mIsLand && mPlaying) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
                     changeToLandscape();
+                    ismIsLandToPortrait = false;
                     mIsLand = true;
                     mClickLand = false;
                 } else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     changeToPortRait();
+                    ismIsLandToPortrait = true;
                     mIsLand = false;
                     mClickPort = false;
                 }
@@ -741,6 +745,14 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                 return true;
             }
         });
+//        if (PreferencesUtils.getInt(DTVApplication.getAppContext(),DTVApplication.SURFACE_HEIGHT,0) > 0){
+//            ViewGroup.LayoutParams lp = mSurfaceContainLayout.getLayoutParams();
+//            lp.height = DensityUtil.dip2px(DTVApplication.getAppContext(),
+//                    PreferencesUtils.getInt(DTVApplication.getAppContext(),DTVApplication.SURFACE_HEIGHT,0));
+//            LogUtil.i(TAG,"reLayout height size:" + lp.height);
+//            mSurfaceContainLayout.setLayoutParams(lp);
+//        }
+
         mSurfaceView = (SurfaceView) findViewById(R.id.player_surface);
         mSurfaceHolder = mSurfaceView.getHolder();
 
@@ -964,7 +976,6 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         mHandler.sendEmptyMessage(SET_TITLE);
 
         isSwitching = true;
-        isLayoutSurface = false;
         mLocked = tuner.lockFreqPoint(mFreq, mBandWidth, mPlp,serviceID);
         if (!mLocked || !mPlaying) {
             // 已终止
@@ -1011,7 +1022,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         mHandler.removeMessages(IS_SURCAFACE_LAYOUT);
         Message msg = mHandler.obtainMessage(SURFACE_LAYOUT);
         mHandler.sendMessage(msg);
-        if (mLocked && mPlaying){
+        if (mLocked && mPlaying && !isSwitching){
             mHandler.sendEmptyMessage(STOP_PROGRESS_WHEEL);
         }
     }
@@ -1140,10 +1151,51 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                     LogUtil.i(TAG, "HardwareAccelerationError");
                     activity.showInfo("HardwareAccelerationError", 500);
                     activity.stopPlayAction();
+                    activity.mSWorHW.setText(R.string.hardware);
+                    activity.mSWorHW.setTag("SW");
+                    activity.mLibDTV.setHardwareAcceleration(LibDTV.HW_ACCELERATION_DISABLED);
                     break;
             }
         }
     }
+
+    private static final class CheckLockThread implements Runnable{
+
+        private WeakReference<EardatekVersion2Activity> mActivity;
+
+        public CheckLockThread(EardatekVersion2Activity activity) {
+            this.mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void run() {
+            EardatekVersion2Activity activity = mActivity.get();
+            if (activity == null)
+                return;
+            int isLock = 0;
+            while (activity.mPlaying || !activity.checkSignalThread.isInterrupted()){
+                isLock = NetTunerCtrl.getInstance().isSignalLockAndStreamServerAlive();
+                if (isLock == -1){
+                    activity.mHandler.sendEmptyMessage(SHOW_NO_SIGNAL_TIPS);
+                }else if (isLock == 0){
+                    activity.mHandler.sendEmptyMessage(HIDE_NO_SIGNAL_TIPS);
+                }
+                else if (isLock == -2){
+                    LogUtil.i(TAG,"checklock thread call stop playing");
+//                    activity.mHandler.sendEmptyMessage(NO_SIGNAL);
+                    return;
+                }
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    LogUtil.i(TAG, "check lock thread exit!");
+                    return;
+                }
+            }
+        }
+    }
+
 
     private static final class MyRunable implements Runnable{
         private WeakReference<EardatekVersion2Activity> mActivity;
@@ -1165,6 +1217,8 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
 
                 if (!activity.mLoadingProgress.isSpinning())
                     activity.mHandler.sendEmptyMessage(START_PROGRESS_WHEEL);
+                if (activity.mNoSignalTips.isShown())
+                    activity.mHandler.sendEmptyMessage(HIDE_NO_SIGNAL_TIPS);
 
                 while ((!activity.mLocked && lockFailedCount < 2) || activity.mReplay
                         /*|| (activity.mLocked && lockFailedCount < 2 && !activity.isGetPidList)*/){
@@ -1182,7 +1236,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                 if (!activity.mLocked || !activity.isGetPidList){
                     isSwitching = false;
                     activity.mHandler.sendEmptyMessage(STOP_PROGRESS_WHEEL);
-                    activity.mHandler.sendEmptyMessage(NO_SIGNAL);
+                    activity.mHandler.sendEmptyMessage(SHOW_NO_SIGNAL_TIPS);
                     activity.mPlaying = false;
                     return;
                 }
@@ -1199,6 +1253,10 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                     activity.mSignalStatusThread = new Thread(new SignalStatusRunnable(activity));
                     activity.mSignalStatusThread.start();
                 }
+                if (activity.checkSignalThread == null || !activity.checkSignalThread.isAlive()){
+                    activity.checkSignalThread = new Thread(new CheckLockThread(activity));
+                    activity.checkSignalThread.start();
+                }
                 for (;activity.mPlaying || !activity.mPlayThread.isInterrupted();) {
                     if (activity.mReplay) {
                         LogUtil.i(TAG, "stop playing");
@@ -1213,6 +1271,8 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
     }
 
     private void stopSignalAndCheckLockThread(){
+        if (checkSignalThread != null && checkSignalThread.isAlive())
+            checkSignalThread.interrupt();
         if (mSignalStatusThread != null && mSignalStatusThread.isAlive())
             mSignalStatusThread.interrupt();
     }
@@ -1467,17 +1527,10 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                     activity.mProgramName.setVisibility(View.INVISIBLE);
                     if (activity.mLocked && activity.mPlaying){
                         activity.playOrPause(false);
-                    }else {
-                        activity.playOrPause(true);
                     }
                     break;
                 case NO_SIGNAL:
-                    activity.mLibDTV.stop();
-                    activity.mPlaying = false;
-                    activity.mReplay = true;
-                    activity.mPlay.setImageResource(R.drawable.icon_play_64);
-                    activity.mPlay.setTag("play");
-                    activity.mPlay.setVisibility(View.VISIBLE);
+                    activity.stopPlayAction();
                     if (NetTunerCtrl.getInstance().isConnectedToDevice())
                         activity.showInfo("没有信号哟！",1000);
                     break;
@@ -1544,6 +1597,18 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                         activity.showInfo("信号太弱，无法播放！",1500);
                         activity.stopPlayAction();
                     }
+                    break;
+                case SHOW_NO_SIGNAL_TIPS:
+                    removeMessages(HIDE_NO_SIGNAL_TIPS);
+                    activity.mProgramName.setVisibility(View.INVISIBLE);
+                    activity.mPlay.setVisibility(View.INVISIBLE);
+                    activity.mNoSignalTips.setVisibility(View.VISIBLE);
+                    removeMessages(SHOW_NO_SIGNAL_TIPS);
+                    break;
+                case HIDE_NO_SIGNAL_TIPS:
+                    removeMessages(SHOW_NO_SIGNAL_TIPS);
+                    activity.mNoSignalTips.setVisibility(View.GONE);
+                    removeMessages(HIDE_NO_SIGNAL_TIPS);
                     break;
             }
         }
@@ -1650,7 +1715,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
      * @param percent percent
      */
     private void onVolumeSlide(float percent) {
-        if (mScreenOrientation != Configuration.ORIENTATION_LANDSCAPE)
+        if (mScreenOrientation != Configuration.ORIENTATION_LANDSCAPE && !isSwitching)
             return;
 
         int currentVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC); // 获取当前值
@@ -1683,7 +1748,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
      * @param percent percent
      */
     private void onBrightnessSlide(float percent) {
-        if (mScreenOrientation != Configuration.ORIENTATION_LANDSCAPE)
+        if (mScreenOrientation != Configuration.ORIENTATION_LANDSCAPE && !isSwitching)
             return;
         if (mIsFirstBrightnessGesture)
             initBrightnessTouch();
@@ -1707,12 +1772,14 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         else if (lpa.screenBrightness < 0.01f)
             lpa.screenBrightness = 0.01f;
         getWindow().setAttributes(lpa);
+
+        mBrightness = lpa.screenBrightness;
         // 变更百分比
 //        mPercentText.setText((int) (lpa.screenBrightness * 100) + "%");
         mPercentText.setText(String.format(Locale.ENGLISH,"%d%%",(int) (lpa.screenBrightness * 100)));
 
         mHandler.removeMessages(VOLUMBRIGHT_FADE_OUT);
-        mHandler.sendEmptyMessageDelayed(VOLUMBRIGHT_FADE_OUT, 3000);
+        mHandler.sendEmptyMessageDelayed(VOLUMBRIGHT_FADE_OUT, 1700);
     }
     /**
      * 手势结束
@@ -1747,13 +1814,15 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                 onVolumeSlide(distanceY/2);
             else if (mOldX < windowWidth / 2.0 && Math.abs(mOldY - y) > Math.abs(mOldX - x) && Math.abs(mOldY - y) > 50){
                 // 左边滑动
-                onBrightnessSlide((mOldY-y));
+//                onBrightnessSlide((mOldY-y));
+                onBrightnessSlide(distanceY * 3);
             }
             return true;
         }
     }
 
     private void changeSurfaceLayout() {
+        LogUtil.i(TAG,"changeSurfaceLayout");
         int sw;
         int sh;
 
@@ -1826,6 +1895,14 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         lp.width = (int) Math.ceil(dw * mVideoWidth / mVideoVisibleWidth);
         lp.height = (int) Math.ceil(dh * mVideoHeight / mVideoVisibleHeight);
 
+
+        LogUtil.i(TAG,"surface height(unit:dp): " + DensityUtil.px2dip(EardatekVersion2Activity.this,lp.height));
+//        if (!isFirstLayout){
+//            PreferencesUtils.putInt(DTVApplication.getAppContext(),DTVApplication.SURFACE_HEIGHT,
+//                    DensityUtil.px2dip(EardatekVersion2Activity.this,lp.height));
+//        }
+
+        isFirstLayout = false;
         surface.setLayoutParams(lp);
         subtitlesSurface.setLayoutParams(lp);
 
@@ -1835,12 +1912,19 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         lp.height = (int) Math.floor(dh);
         surfaceFrame.setLayoutParams(lp);
 
+//        int height = DensityUtil.dip2px(DTVApplication.getAppContext(),
+//                PreferencesUtils.getInt(DTVApplication.getAppContext(),DTVApplication.SURFACE_HEIGHT,0));
+//        LogUtil.i(TAG,"saved surface height:" + height);
+//
+//        int layoutHeight = mSurfaceContainLayout.getHeight();
+//        LogUtil.i(TAG,"layoutHeight :" + layoutHeight);
+
         if (!isPortrait){
             lp = mSurfaceContainLayout.getLayoutParams();
             lp.width = sw;
             lp.height = sh;
             mSurfaceContainLayout.setLayoutParams(lp);
-        }else {
+        }else /*if(height <= 0 || height > mSurfaceContainLayout.getHeight())*/{
             lp = mSurfaceContainLayout.getLayoutParams();
             lp.width = LinearLayout.LayoutParams.MATCH_PARENT;
             lp.height = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -1932,18 +2016,20 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
     private void getProgramInfo(int dx){
         int i = mChanelAdapter.getSelectPosition();
         if (dx < 0) {
+            LogUtil.i(TAG,"dx = " + dx);
             if (i + Math.abs(dx) < mChanelAdapter.getChanelList().size()){
                 mTvGridAdapterPosition = i + Math.abs(dx);
                 mLocation = mChanelAdapter.getChanelList().get(mTvGridAdapterPosition).getText();
             } else{
-                int index = Math.abs(dx) - (mChanelAdapter.getChanelList().size() - i - 1) - 1;
+                int index = (Math.abs(dx)%(mChanelAdapter.getChanelList().size())) + i;
+                if (index >= mChanelAdapter.getChanelList().size())
+                    index = index - mChanelAdapter.getChanelList().size();
                 mLocation = mChanelAdapter.getChanelList().get(index).getText();
                 mTvGridAdapterPosition = index;
             }
             LogUtil.i(TAG,"dx < 0");
             LogUtil.i(TAG,"index = " + mTvGridAdapterPosition);
         } else if (dx > 0) {
-            LogUtil.i(TAG,"dx = " + dx);
             int index = i - (dx % mChanelAdapter.getChanelList().size());
             LogUtil.i(TAG,"index = " + index);
             if (index >= 0){
@@ -1957,7 +2043,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         }
         mServiceName = ChannelInfoDB.getInstance().getChannelInfo(mLocation).getTitle();
         mHandler.sendEmptyMessage(SET_TITLE);
-        mHandler.sendEmptyMessageDelayed(CHANGE_PROGRAM_DELAY,1000);
+        mHandler.sendEmptyMessageDelayed(CHANGE_PROGRAM_DELAY,800);
     }
 
     private void changeProgram(){
@@ -2001,6 +2087,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                     if(mLibDTV.isPlaying()){
                         mLibDTV.stop();
                         clearSurfaveView();
+                        stopSignalAndCheckLockThread();
                     }
                     if (dx > 0)
                         mChangeProgramCount++;
@@ -2101,6 +2188,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
         {
             if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                ismIsLandToPortrait = true;
                 changeToPortRait();
                 mIsLand = false;
 //                mClickPort = false;
@@ -2168,6 +2256,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
     private boolean mClick = false; // 是否点击
     private boolean mClickLand = true; // 点击进入横屏
     private boolean mClickPort = true; // 点击进入竖屏
+    private boolean ismIsLandToPortrait = false;
 
     private final void startListener() {
         mOrientationListener = new OrientationEventListener(this) {
@@ -2175,6 +2264,7 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
             public void onOrientationChanged(int rotation) {
                 if (isLockScreen)
                     return;
+//                LogUtil.i(TAG,"rotation = " + rotation);
                 if (!mPlaying && (rotation != Configuration.ORIENTATION_PORTRAIT)){
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                     changeToPortRait();
@@ -2194,13 +2284,14 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                             LogUtil.i(TAG,"startListener SCREEN_ORIENTATION_PORTRAIT");
                             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                             changeToPortRait();
+                            ismIsLandToPortrait = true;
                             mIsLand = false;
                             mClick = false;
                         }
                     }
                 }
                 // 设置横屏
-                else if (((rotation >= 230) && (rotation <= 310))) {
+                else if (((rotation >= 230) && (rotation <= 310)) || ((rotation >= 0) && (rotation <= 90))) {
                     if (mClick) {
                         if (!mIsLand && !mClickPort) {
                             return;
@@ -2211,11 +2302,21 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
                         }
                     } else {
                         if (!mIsLand && mPlaying) {
-                            LogUtil.i(TAG,"startListener SCREEN_ORIENTATION_LANDSCAPE");
-                            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                            changeToLandscape();
-                            mIsLand = true;
-                            mClick = false;
+                            if (rotation >= 230 && rotation <= 310){
+                                LogUtil.i(TAG,"startListener SCREEN_ORIENTATION_LANDSCAPE");
+                                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                                changeToLandscape();
+                                ismIsLandToPortrait = false;
+                                mIsLand = true;
+                                mClick = false;
+                            }else if ( ((rotation >= 0) && (rotation <= 90))){
+                                LogUtil.i(TAG,"startListener SCREEN_ORIENTATION_LANDSCAPE");
+                                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+                                changeToLandscape();
+                                mIsLand = true;
+                                mClick = false;
+                            }
+
                         }
                     }
                 }
@@ -2238,8 +2339,10 @@ public class EardatekVersion2Activity extends BaseActivity implements TabHost.On
 
             @Override
             public void onDisabled() {
-                if (mLibDTV.isPlaying())
+                if (mLibDTV.isPlaying()){
                     stopPlayAction();
+                    NetTunerCtrl.getInstance().reconnect();
+                }
                 showWifiDialog();
             }
         });

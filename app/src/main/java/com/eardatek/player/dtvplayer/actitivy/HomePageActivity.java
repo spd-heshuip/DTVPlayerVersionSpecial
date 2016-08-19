@@ -14,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.eardatek.player.dtvplayer.R;
+import com.eardatek.player.dtvplayer.system.DTVApplication;
 import com.eardatek.player.dtvplayer.util.NetworkUtil;
 import com.eardatek.player.dtvplayer.widget.ProgressWheel;
 
@@ -57,6 +58,7 @@ public class HomePageActivity extends AppCompatActivity{
         super.onActivityResult(requestCode, resultCode, data);
         String wifiName = NetworkUtil.getWifiName(getApplicationContext());
         if (wifiName != null && wifiName.contains("MobileTV_")){
+            DTVApplication.setWifiName(wifiName);
             mProgress.stopSpinning();
             Intent intent = new Intent(HomePageActivity.this, EardatekVersion2Activity.class);
             startActivity(intent);
