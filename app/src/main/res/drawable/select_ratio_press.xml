@@ -7,15 +7,6 @@
         android:color="@color/white" >
     </stroke>
 
-    <corners
-        android:bottomLeftRadius="5dp"
-        android:bottomRightRadius="5dp"
-        android:topLeftRadius="5dp"
-        android:topRightRadius="5dp" />
-
-    <gradient
-        android:angle="90"
-        android:endColor="@color/grey400"
-        android:startColor="@color/grey400" />
-
+    <solid
+        android:color="@color/white"/>
 </shape>

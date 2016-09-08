@@ -32,7 +32,7 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:textSize="14sp"
-                android:text="PM 2:30"/>
+                android:text="@string/pm_2_30"/>
 
             <TextView
                 android:id="@+id/epg_name"

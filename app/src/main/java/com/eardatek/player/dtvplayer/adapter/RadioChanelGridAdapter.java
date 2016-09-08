@@ -161,7 +161,7 @@ public class RadioChanelGridAdapter extends RecyclerView.Adapter<RadioChanelGrid
             mLayout = (RelativeLayout) itemView.findViewById(R.id.program_layout);
 //            mRadioTips = (TextView) itemView.findViewById(R.id.radio_text);
             mTvTitle = (TextView) itemView.findViewById(R.id.chanel_name);
-            mMenu = (ImageView) itemView.findViewById(R.id.ic_menu);
+//            mMenu = (ImageView) itemView.findViewById(R.id.ic_menu);
 
             mLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

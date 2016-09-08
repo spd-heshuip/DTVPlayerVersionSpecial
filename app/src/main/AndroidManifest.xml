@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
         android:name=".system.DTVApplication"
@@ -36,8 +37,7 @@
         </activity>
         <activity android:name=".actitivy.BaseActivity"/>
         <activity android:name=".actitivy.EardatekVersion2Activity"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="sensor"/>
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".actitivy.ScanChannelActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>

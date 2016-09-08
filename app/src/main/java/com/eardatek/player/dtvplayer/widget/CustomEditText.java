@@ -12,15 +12,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import com.eardatek.player.dtvplayer.R;
 
-;
-
 /**
  * 作者：Create By Administrator on 15-11-24 in com.learn.shuip.yayashop.widget.
  * 邮箱：spd_heshuip@163.com;
  */
 public class CustomEditText extends AppCompatEditText implements View.OnTouchListener,View.OnFocusChangeListener ,TextWatcher{
 
-    private Drawable mClearTextIcon;;
+    private Drawable mClearTextIcon;
 
     private OnFocusChangeListener mOnfocusChangeListener;
 

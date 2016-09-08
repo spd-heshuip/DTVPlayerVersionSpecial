@@ -29,7 +29,7 @@
     <dimen name="progresswheel_text_size">20sp</dimen>
     <dimen name="tips_text_size">16sp</dimen>
     <dimen name="advance_search_text_size">12sp</dimen>
-    <dimen name="channelname_text_size">16sp</dimen>
+    <dimen name="channelname_text_size">18sp</dimen>
     <dimen name="dialog_title_size">20sp</dimen>
     <dimen name="edittext_hint_text_size">16sp</dimen>
     <dimen name="dialog_cancel">16sp</dimen>

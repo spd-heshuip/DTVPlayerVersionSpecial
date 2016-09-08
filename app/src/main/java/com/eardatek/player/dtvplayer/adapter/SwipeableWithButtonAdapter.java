@@ -1,6 +1,5 @@
 package com.eardatek.player.dtvplayer.adapter;
 
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +31,7 @@ import com.h6ah4i.android.widget.advrecyclerview.utils.RecyclerViewAdapterUtils;
 
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Administrator on 16-7-25.
@@ -43,12 +43,13 @@ public class SwipeableWithButtonAdapter
 
     private static final String TAG = SwipeableWithButtonAdapter.class.getSimpleName();
 
-    private int mPosition = -1;
+    private int swipedPosition = -1;
 
     private int mTopCount = 0;
 
     private volatile int mSelectItem = -1;
 
+    private boolean isCanMoveByTouchButton = false;
 
     private StringBuffer mSelectProgram = new StringBuffer("");
 
@@ -100,7 +101,7 @@ public class SwipeableWithButtonAdapter
             @Override
             public boolean onLongClick(View view) {
                 onContainerLongClick(view);
-                return false;
+                return true;
             }
         };
 
@@ -169,7 +170,7 @@ public class SwipeableWithButtonAdapter
         // set listeners
         // (if the item is *pinned*, click event comes to the mContainer)
         holder.mProgramName.setText(name);
-        holder.mFreq.setText(freq/1000 + "MHz");
+        holder.mFreq.setText(String.format(Locale.ENGLISH,"%dMHz", freq / 1000));
 
         holder.mDeleteButton.setOnClickListener(mUnderSwipeableViewButtonOnClickListener);
         holder.mContainer.setOnClickListener(mSwipeableViewContainerOnClickListener);
@@ -179,21 +180,35 @@ public class SwipeableWithButtonAdapter
         final int width = holder.mContainer.getWidth();
         holder.mDeleteButton.setWidth(width/5);
         holder.mTopButton.setWidth(width/5);
+        holder.mMoveButton.setWidth(width/5);
+        holder.mDragHandle.setText(String.format(Locale.ENGLISH,"%d", position + 1));
 
         if (item.isTop() == 1 && !mSelectProgram.toString().equals(item.getText())){
-            holder.mProgramLayout.setBackgroundResource(R.drawable.photo_camera_selector);
+            holder.mProgramLayout.setBackgroundResource(R.drawable.photo_camera_normal);
+            holder.mDragHandle.setBackgroundResource(R.drawable.photo_camera_normal);
+            holder.mDragHandle.setTextColor(DTVApplication.getAppContext().getResources().getColor(R.color.white));
             holder.mTopButton.setText(R.string.cancel_top);
+            holder.mDivideLine.setBackgroundResource(R.drawable.photo_program_card_normal);
         }else if (item.isTop() == 1 && mSelectProgram.toString().equals(item.getText())){
             holder.mProgramLayout.setBackgroundResource(R.drawable.top_and_selected_background);
+            holder.mDragHandle.setBackgroundResource(R.drawable.top_and_selected_background);
+            holder.mDragHandle.setTextColor(DTVApplication.getAppContext().getResources().getColor(R.color.white));
             mSelectItem = position;
             holder.mTopButton.setText(R.string.cancel_top);
+            holder.mDivideLine.setBackgroundResource(R.drawable.photo_program_card_normal);
         } else if(item.isTop() == 0 && !mSelectProgram.toString().equals(item.getText())){
-            holder.mProgramLayout.setBackgroundResource(R.drawable.selector_program_card);
+            holder.mProgramLayout.setBackgroundResource(R.drawable.photo_program_card_normal);
+            holder.mDragHandle.setBackgroundResource(R.drawable.photo_program_card_normal);
+            holder.mDragHandle.setTextColor(DTVApplication.getAppContext().getResources().getColor(R.color.grey400));
             holder.mTopButton.setText(R.string.top);
+            holder.mDivideLine.setBackgroundResource(R.drawable.photo_camera_normal);
         }else if (item.isTop() == 0 && mSelectProgram.toString().equals(item.getText())){
             holder.mProgramLayout.setBackgroundResource(R.drawable.photo_program_card_press);
+            holder.mDragHandle.setBackgroundResource(R.drawable.photo_program_card_press);
+            holder.mDragHandle.setTextColor(DTVApplication.getAppContext().getResources().getColor(R.color.white));
             mSelectItem = position;
             holder.mTopButton.setText(R.string.top);
+            holder.mDivideLine.setBackgroundResource(R.drawable.photo_program_card_normal);
         }
 
         // set background resource (target view ID: container)
@@ -222,10 +237,10 @@ public class SwipeableWithButtonAdapter
             holder.mContainer.setBackgroundResource(bgResId);
         }
         // set swiping properties
-        holder.setMaxLeftSwipeAmount(-0.4f);
+        holder.setMaxLeftSwipeAmount(-0.6f);
         holder.setMaxRightSwipeAmount(0);
         holder.setSwipeItemHorizontalSlideAmount(
-                item.isPinned() ? -0.5f : 0);
+                item.isPinned() ? -0.6f : 0);
     }
 
     @Override
@@ -239,12 +254,16 @@ public class SwipeableWithButtonAdapter
         switch (result) {
             // swipe left --- pin
             case Swipeable.RESULT_SWIPED_LEFT:
+                swipedPosition = position;
+                isCanMoveByTouchButton = true;
                 return new SwipeLeftResultAction(this, position);
             // other --- do nothing
             case Swipeable.RESULT_SWIPED_RIGHT:
             case Swipeable.RESULT_CANCELED:
             default:
                 if (position != RecyclerView.NO_POSITION) {
+                    swipedPosition = -1;
+                    isCanMoveByTouchButton = false;
                     return new UnpinResultAction(this, position);
                 } else {
                     return null;
@@ -264,7 +283,7 @@ public class SwipeableWithButtonAdapter
     @Override
     public void onSetSwipeBackground(MyViewHolder holder, int position, int type) {
 
-        int bgRes = 0;
+        int bgRes;
         switch (type) {
             case Swipeable.DRAWABLE_SWIPE_NEUTRAL_BACKGROUND:
                 bgRes = R.drawable.bg_swipe_item_neutral;
@@ -282,12 +301,14 @@ public class SwipeableWithButtonAdapter
     public boolean onCheckCanStartDrag(MyViewHolder holder, int position, int x, int y) {
         // x, y --- relative from the itemView's top-left
         final View containerView = holder.mContainer;
-        final View dragHandleView = holder.mDragHandle;
+        final View dragHandleView = holder.mMoveButton;
 
-        final int offsetX = containerView.getLeft() + (int) (ViewCompat.getTranslationX(containerView) + 0.5f);
-        final int offsetY = containerView.getTop() + (int) (ViewCompat.getTranslationY(containerView) + 0.5f);
+//        final int offsetX = containerView.getLeft() + (int) (ViewCompat.getTranslationX(containerView) + 0.5f);
+//        final int offsetY = containerView.getTop() + (int) (ViewCompat.getTranslationY(containerView) + 0.5f);
 
-        return ViewUtils.hitTest(dragHandleView, x - offsetX, y - offsetY);
+
+        //判断是否可移动
+        return ViewUtils.hitTest(dragHandleView, x, y) && isCanMoveByTouchButton && swipedPosition == position;
     }
 
     @Override
@@ -309,6 +330,7 @@ public class SwipeableWithButtonAdapter
     @Override
     public void onMoveItem(int fromPosition, int toPosition) {
         LogUtil.i(TAG, "onMoveItem(fromPosition = " + fromPosition + ", toPosition = " + toPosition + ")");
+        isCanMoveByTouchButton = false;
 
         if (fromPosition == toPosition) {
             return;
@@ -328,7 +350,6 @@ public class SwipeableWithButtonAdapter
             mSelectItem = toPosition;
         doMoveAction(fromPosition,toPosition);
 
-        LogUtil.i(TAG,"select item: " + mSelectItem);
     }
 
     @Override
@@ -351,7 +372,10 @@ public class SwipeableWithButtonAdapter
         private Button mTopButton;
         public TextView mFreq;
         public TextView mProgramName;
-        private View mDragHandle;
+        private TextView mDragHandle;
+        private View mDivideLine;
+        private Button mMoveButton;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -360,8 +384,11 @@ public class SwipeableWithButtonAdapter
             mTopButton = (Button) itemView.findViewById(R.id.top);
             mFreq = (TextView) itemView.findViewById(R.id.channel_freq);
             mProgramName = (TextView) itemView.findViewById(R.id.chanel_name);
-            mDragHandle = itemView.findViewById(R.id.drag_handle);
+            mDragHandle = (TextView) itemView.findViewById(R.id.drag_handle);
             mProgramLayout = (RelativeLayout) itemView.findViewById(R.id.program_layout);
+            mDivideLine = itemView.findViewById(R.id.line_divide);
+            mMoveButton = (Button) itemView.findViewById(R.id.move);
+
         }
 
         @Override
@@ -460,6 +487,14 @@ public class SwipeableWithButtonAdapter
 
     public void setOnItemMoveListenner(OnItemMoveListenner listenner) {
         this.onItemMoveListenner = listenner;
+    }
+
+    public int getSwipedPosition() {
+        return swipedPosition;
+    }
+
+    public void setSwipedPosition(int swipedPosition) {
+        this.swipedPosition = swipedPosition;
     }
 
     public List<TvDataProvider.ConcreteData> getList(){

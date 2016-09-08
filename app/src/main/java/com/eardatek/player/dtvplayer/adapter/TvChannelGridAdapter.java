@@ -30,7 +30,6 @@ import java.util.List;
  */
 public class TvChannelGridAdapter  extends RecyclerView.Adapter<TvChannelGridAdapter.ViewHolder> implements OnMoveAndSwipeListener{
 
-    private Context mContext;
     private LayoutInflater mInflater;
     private List<ChannelInfo> mChannelList;
     private ChannelInfoDB mDB = ChannelInfoDB.getInstance();
@@ -49,8 +48,7 @@ public class TvChannelGridAdapter  extends RecyclerView.Adapter<TvChannelGridAda
 
     public TvChannelGridAdapter(Context context, OnStartDragOrSwipeListener startDragListener, OnDataBaseChangeListener dataBaseChangeListener,
                                 OnItemClickListener listener, OnDeleteItemPlayingListener onDeleteItemPlayingListener) {
-        mContext = context;
-        mInflater = LayoutInflater.from(mContext);
+        mInflater = LayoutInflater.from(context);
         mStartDragListener = startDragListener;
         mDataBaseChangeListener = dataBaseChangeListener;
         mItemListener = listener;
@@ -60,9 +58,7 @@ public class TvChannelGridAdapter  extends RecyclerView.Adapter<TvChannelGridAda
     }
 
     public boolean isProgramListEmpty(){
-        if (mChannelList == null || mChannelList.size() == 0)
-            return true;
-        return false;
+        return mChannelList == null || mChannelList.size() == 0;
     }
 
     public List<ChannelInfo> getChannelList(){
@@ -174,7 +170,7 @@ public class TvChannelGridAdapter  extends RecyclerView.Adapter<TvChannelGridAda
 
             mLayout = (RelativeLayout) itemView.findViewById(R.id.program_layout);
             mTvTitle = (TextView) itemView.findViewById(R.id.chanel_name);
-            mMenu = (ImageView) itemView.findViewById(R.id.ic_menu);
+//            mMenu = (ImageView) itemView.findViewById(R.id.ic_menu);
 
             mLayout.setOnClickListener(new View.OnClickListener() {
                 @Override

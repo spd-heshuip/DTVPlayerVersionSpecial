@@ -7,11 +7,8 @@ import com.blazevideo.libdtv.LibDtvException;
 import com.eardatek.player.dtvplayer.bean.EpgItem;
 import com.eardatek.player.dtvplayer.system.DTVInstance;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * 作者：Create By Administrator on 16-3-22 in com.eardatek.player.dtvplayer.util.

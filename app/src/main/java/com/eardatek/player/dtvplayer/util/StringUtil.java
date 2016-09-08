@@ -11,8 +11,6 @@ public class StringUtil {
     public static boolean isNumber(String text){
         Pattern p = Pattern.compile("[0-9]*");
         Matcher matcher = p.matcher(text);
-        if (matcher.matches())
-            return true;
-        return false;
+        return matcher.matches();
     }
 }

@@ -23,7 +23,6 @@ import com.eardatek.player.dtvplayer.system.DTVApplication;
 public class CustomToolbar extends Toolbar {
 
     private final static String TAG = "CustomToolbar";
-    private LayoutInflater mInflater;
 
     private TextView mTextTitle;
     private Button mRightButton;
@@ -66,7 +65,7 @@ public class CustomToolbar extends Toolbar {
 
     private void initView() {
         if (mView == null) {
-            mInflater = LayoutInflater.from(getContext());
+            LayoutInflater mInflater = LayoutInflater.from(getContext());
             mView = mInflater.inflate(R.layout.toolbar, null);
 
             mTextTitle = (TextView) mView.findViewById(R.id.toolbar_title);

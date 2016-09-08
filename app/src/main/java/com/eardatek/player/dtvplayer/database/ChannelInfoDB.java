@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.blazevideo.libdtv.ChannelInfo;
 import com.eardatek.player.dtvplayer.system.DTVApplication;
-import com.eardatek.player.dtvplayer.util.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +28,6 @@ public class ChannelInfoDB {
     private final String MEDIA_TABLE_ID = "_id";
     private final String MEDIA_LOCATION = "location";
     private final String MEDIA_TITLE = "title";
-    private final String MEDIA_CONFIG = "config";
-    
-
-    public enum mediaColumn {
-        MEDIA_TABLE_NAME, 
-        MEDIA_TITLE
-    }
 
     private ChannelInfoDB(Context context) {
         DatabaseHelper helper = new DatabaseHelper(context);
@@ -113,8 +105,10 @@ public class ChannelInfoDB {
 
     private int getID(String location, String title){
         Cursor c = mDb.query(MEDIA_TABLE_NAME,new String[]{"_id"},"location =? AND title=?",new String[]{location,title},null,null,null,null);
-        if (c.moveToFirst()) //if the row exist then return the id
+        if (c != null && c.moveToFirst()) //if the row exist then return the id
             return c.getInt(c.getColumnIndex("_id"));
+        if (c != null)
+            c.close();
         return -1;
     }
 

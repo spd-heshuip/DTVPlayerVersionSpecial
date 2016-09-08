@@ -1,6 +1,9 @@
 package com.eardatek.player.dtvplayer.util;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.provider.Settings;
 import android.view.WindowManager;
 
 /**
@@ -10,9 +13,10 @@ import android.view.WindowManager;
 public class WindowUtil {
     /**
      * 动态显示隐藏标题栏
+     *
      * @param enable
      */
-    public static void fullScreen(boolean enable,Activity activity) {
+    public static void fullScreen(boolean enable, Activity activity) {
         if (enable) {
             WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
             lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
@@ -24,5 +28,31 @@ public class WindowUtil {
             activity.getWindow().setAttributes(attr);
             activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
+    }
+
+    /**
+     * 获取系统是否打开自动旋转
+     * @param context
+     * @return
+     */
+    public static boolean isAutoRotateOn(Context context) {
+        return (android.provider.Settings.System.getInt(context.getContentResolver(),
+                Settings.System.ACCELEROMETER_ROTATION, 0) == 1);
+    }
+
+    public static int convert2Orientation(int rotation){
+        int orientation;
+        if (((rotation >= 0) && (rotation <= 45)) || (rotation > 315)) {
+            orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        } else if ((rotation > 45) && (rotation <= 135)) {
+            orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE;
+        } else if ((rotation > 135) && (rotation <= 225)) {
+            orientation = ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT;
+        } else if ((rotation > 225) && (rotation <= 315)) {
+            orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
+        } else {
+            orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
+        }
+        return orientation;
     }
 }

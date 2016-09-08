@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tevemo</string>
+    <string name="action_settings">Setting</string>
+    <string name="title_main">HDTV Player</string>
+    <string name="app_title">HDTV Player</string>
+    <string name="scan">Scanning</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="search_toolbar">action_search</string>
+    <string name="advance_search">Advanced Search</string>
+    <string name="freq">Please Input the frequency point （Units:KHz）</string>
+    <string name="cancel">Cancel</string>
+    <string name="search">Search</string>
+    <string name="stop_play_tips">Try again to quit play</string>
+    <string name="quit_app_tips">press again to quit application</string>
+    <string name="playing">Playing</string>
+    <string name="hardware1">HW</string>
+    <string name="softwaredecode">SW</string>
+    <string name="time">20:35</string>
+    <string name="ratio">16:9</string>
+    <string name="scan_tips">The DataBase does not hava Program,Please Press the Button on the top right corner to capture the Program! </string>
+    <string name="scan_tips_earda">The DataBase does not hava Program,Please Press the Button on the top left corner to capture the Program! </string>
+    <string name="freqtips">invalid frequency</string>
+    <string name="scantips">press again to quit scan</string>
+    <string name="programguide">Program Guide</string>
+    <string name="edit_program_list">edit_program_list</string>
+    <string name="delete">delete</string>
+    <string name="empty_program_list">are you sure empty the channel list?</string>
+    <string name="toolbar_title">HDTV Player</string>
+    <string name="search_tips">Do you want to Search Again？</string>
+    <string name="searchall">Search</string>
+    <string name="program">Channel List</string>
+    <string name="epg">EPG Information</string>
+    <string name="radio">Radio</string>
+    <string name="epg_tip">There is no Epg Information!</string>
+    <string name="refresh_button_tips">click to refresh</string>
+    <string name="radio_tips">There is no Radio Program</string>
+    <string name="crash_tips">Sorry!The application occurs a exception,it has to quit!</string>
+    <string name="guide">Program Guide</string>
+    <string name="software">SW</string>
+    <string name="hardware">HW</string>
+    <string name="top">Stick</string>
+    <string name="canceltop">Unstick</string>
+    <string name="settop">Stick</string>
+    <string name="cancel_top">Unstick</string>
+    <string name="search_all">Search all frequency</string>
+    <string name="searchall_tips">Clear all old channels</string>
+    <string name="search_button">Search</string>
+    <string name="advance_text">Advance Search</string>
+    <string name="advance_search_tips">Please Enter Frequency(Unit: MHz)</string>
+    <string name="no_channnel">No Channel Found!</string>
+    <string name="scan_immed">Scan</string>
+    <string name="welcome">Thank you for use our player！</string>
+    <string name="enjoy">Enjoy the Tv show!</string>
+    <string name="next">Next</string>
+    <string name="connect_now">Connect immediately</string>
+    <string name="open_wifi">Open Wifi</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="detect_wifi">The phone has not connected the device\'s wifi!</string>
+    <string name="wifi_err_tips">can not open wifi setting!</string>
+    <string name="no_signal_tips">No Signal!</string>
+    <string name="ant_tips">Use external antenna or go somewhere else!</string>
+    <string name="program_guide">Program Guide</string>
+    <string name="pm_2_30">PM 2:30</string>
+    <string name="_100">100%</string>
+    <string name="connecting">Connecting</string>
+    <string name="connected">Connected</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="connect">Connect</string>
+    <string name="move">Move</string>
+    <string name="hardwaredecode">Hardware decode</string>
+    <string name="sofewaredecodetip">SoftWare decode</string>
+    <string name="switching">Switching Program,wait for a moment please! </string>
+    <string name="quittitle">Quit Video Player</string>
+    <string name="poweroff">remember power off the device!</string>
+    <string name="nochannletips">No channels found!</string>
+    <string name="foundchannel">Found Channels:</string>
+    <string name="connectsuccess">Connect device successful!</string>
+    <string name="connectfail">Connect device fail!please check the phone\'s wifi setting!</string>
+    <string name="disconnecttips">The phone has disconnect to device!please check the phone\'s wifi setting</string>
+
+    <string name="deletetips">Are you sure</string>
+    <string name="deletecontent">The channel is unrecoverable!</string>
+    <string name="deleteconfirm">The channel has been delete!</string>
+
+    <string name="signalstrength">Signal Strength:</string>
+
+    <string name="channels">ch</string>
+    <string name="scaning">Scaning…</string>
+    <string name="_0">0</string>
+    <string name="_0mhz">0MHZ</string>
+
+</resources>

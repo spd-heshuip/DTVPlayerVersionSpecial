@@ -18,15 +18,15 @@
 
     <Button
         android:id="@+id/scan_channel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:text="@string/scan_immed"
-        android:background="@drawable/photo_camera_selector"/>
+        android:background="@drawable/selector_connect_button"/>
 
 
 </LinearLayout>

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.blazevideo.libdtv.ChannelInfo;
 import com.eardatek.player.dtvplayer.R;
 import com.eardatek.player.dtvplayer.data.TvDataProvider;
 import com.eardatek.player.dtvplayer.database.ChannelInfoDB;
@@ -25,18 +24,16 @@ import java.util.List;
 public class ChanelListAdaptar extends RecyclerView.Adapter<ChanelListAdaptar.ViewHolder> {
 
     private List<TvDataProvider.ConcreteData> mChanelList = new ArrayList<>();
-    private Context mContext;
     private LayoutInflater mInflater;
     private StringBuffer mSelectProgramLocation = new StringBuffer("");
 
     private OnItemClickListener mListenner;
 
-
+    private int mSelectPosition = -1;
 
     public ChanelListAdaptar(Context context,OnItemClickListener listener) {
         loadData();
-        this.mContext = context;
-        this.mInflater = LayoutInflater.from(mContext);
+        this.mInflater = LayoutInflater.from(context);
         this.mListenner = listener;
     }
 
@@ -78,9 +75,10 @@ public class ChanelListAdaptar extends RecyclerView.Adapter<ChanelListAdaptar.Vi
         holder.mChanelName.setTag(channelInfo.getText());
 
         if (channelInfo.getText().equals(mSelectProgramLocation.toString())){
-            holder.mChanelName.setBackgroundResource(R.drawable.photo_program_card_press);
+            holder.mCard.setBackgroundResource(R.drawable.photo_gallery_pressed);
+            mSelectPosition = position;
         }else
-            holder.mChanelName.setBackgroundResource(R.drawable.selector_program_card);
+            holder.mCard.setBackgroundResource(R.drawable.bg_channelname_fullscreen);
     }
 
     @Override
@@ -110,7 +108,7 @@ public class ChanelListAdaptar extends RecyclerView.Adapter<ChanelListAdaptar.Vi
         public void onClick(View v) {
             String location = v.getTag().toString();
             setSelectProgram(location);
-            mChanelName.setBackgroundResource(R.drawable.select_play_chanel_press);
+//            mChanelName.setBackgroundResource(R.drawable.select_play_chanel_press);
             mListenner.onClick(location,true,getLayoutPosition());
         }
     }
@@ -118,6 +116,10 @@ public class ChanelListAdaptar extends RecyclerView.Adapter<ChanelListAdaptar.Vi
     public void setSelectProgram(String location){
         mSelectProgramLocation = new StringBuffer(location);
         notifyDataSetChanged();
+    }
+
+    public int getSelectPosition(){
+        return mSelectPosition;
     }
 
     public interface OnItemClickListener{

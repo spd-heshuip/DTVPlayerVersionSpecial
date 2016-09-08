@@ -16,7 +16,7 @@
 	            android:layout_centerInParent="true"
 	            android:background="@drawable/mmtitle_bg"
 	            android:gravity="center"
-	            android:text="Program Guide"
+	            android:text="@string/program_guide"
 	            android:textAppearance="?android:attr/textAppearanceLarge"
 	            android:textColor="@color/white" />
 
@@ -55,7 +55,7 @@
     <ListView
         android:id="@+id/listViewEPG"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1" >
     </ListView>
     

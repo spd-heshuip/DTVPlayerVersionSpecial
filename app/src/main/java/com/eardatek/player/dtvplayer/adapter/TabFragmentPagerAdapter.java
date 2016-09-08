@@ -7,14 +7,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 
 import com.eardatek.player.dtvplayer.bean.Tab;
-import com.eardatek.player.dtvplayer.fragment.EpgFragment;
-import com.eardatek.player.dtvplayer.fragment.ProgramFragment;
-import com.eardatek.player.dtvplayer.fragment.RadioFragment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 16-3-30.
@@ -24,7 +19,6 @@ public class TabFragmentPagerAdapter extends FragmentPagerAdapter{
     private List<Fragment> mFragments = new ArrayList<>(3);
     private FragmentManager manager;
     private boolean[] fragmentUpdateFlag = {false,false,false,false};
-    private List<String> mTagList;
 
     public TabFragmentPagerAdapter(FragmentManager fm,List<Tab> tabs) {
         super(fm);

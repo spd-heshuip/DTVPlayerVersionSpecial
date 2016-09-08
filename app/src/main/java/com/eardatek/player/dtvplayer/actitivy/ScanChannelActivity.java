@@ -8,21 +8,16 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eardatek.player.dtvplayer.R;
-import com.eardatek.player.dtvplayer.callback.MyEvents;
 import com.eardatek.player.dtvplayer.system.DTVApplication;
 import com.eardatek.player.dtvplayer.util.ChannelScanner;
+import com.eardatek.player.dtvplayer.util.LogUtil;
 import com.eardatek.player.dtvplayer.util.WeakHandler;
 import com.eardatek.player.dtvplayer.widget.CustomToolbar;
-import com.eardatek.player.dtvplayer.widget.RadarSearchView;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import com.eardatek.player.dtvplayer.widget.ProgressWheel;
 
 import java.util.Locale;
 
@@ -35,27 +30,24 @@ public class ScanChannelActivity extends AppCompatActivity {
     
     private ChannelScanner mChannelScanner ;
 
-    private TextView mShowInfoTextView1 ;
-    private TextView mShowInfoTextView2 ;
-    private ProgressBar mProgressBar ;
+    private TextView mFoundChannels;
+    private TextView mScanFreq;
+    private ProgressWheel mProgressBar ;
     private int freq = 0;
-    
+    private int mScaningFreq;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         int keepScreenOn = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
         getWindow().setFlags(keepScreenOn, keepScreenOn);
 
-		setContentView(R.layout.activity_scan_channel);
+		setContentView(R.layout.activity_scan);
 		initToolbar();
-		mShowInfoTextView1 = (TextView)findViewById(R.id.tv_show_info1);
-		mShowInfoTextView2 = (TextView)findViewById(R.id.tv_show_info2);
-		mProgressBar = (ProgressBar)findViewById(R.id.progressbar);
 
-
-        RadarSearchView search_device_view = (RadarSearchView) findViewById(R.id.radar_search_view);
-		search_device_view.setWillNotDraw(false);	
-		search_device_view.setSearching(true);
+		mFoundChannels = (TextView)findViewById(R.id.found_channels);
+		mScanFreq = (TextView)findViewById(R.id.scan_freq);
+		mProgressBar = (ProgressWheel) findViewById(R.id.scan_progreswheel);
 
         freq = getIntent().getIntExtra("advance_search",0);
 //        Log.i(TAG,"freq="+ freq);
@@ -84,15 +76,15 @@ public class ScanChannelActivity extends AppCompatActivity {
         mChannelScanner.startScan();
     }
 
-    public void showInfo( String info1, String info2 ) {
-        if (info1 != null)
-    	    mShowInfoTextView1.setText(info1);
-    	if(info2 != null )
-    		mShowInfoTextView2.setText(info2);
+    public void showInfo( String foundChannels, String scanFreq ) {
+        if (foundChannels != null)
+    	    mFoundChannels.setText(foundChannels);
+    	if(scanFreq != null )
+    		mScanFreq.setText(scanFreq);
     }
     
     public void setScanProgress( int progress ) {
-    	mProgressBar.setProgress(mProgressBar.getMax() / 100 * progress);
+    	mProgressBar.setProgress(progress);
     }
     
     private  Handler mHandler = new ScanChannelHandler(this);
@@ -110,20 +102,25 @@ public class ScanChannelActivity extends AppCompatActivity {
 
             switch (msg.what) {
                 case SCAN_CHANNEL_PER_TP:
-                	String info1 = String.format(Locale.ENGLISH," %dMHz  %d%% ", msg.arg1/1000, msg.arg2/10000 ) ;
-                	String info2 = String.format(Locale.ENGLISH,"Found channels: %d ", msg.arg2%10000) ;
-                	activity.setScanProgress( msg.arg2/10000 ) ;
-                	activity.showInfo( info1, info2) ;
+                    activity.mScaningFreq = msg.arg1/1000;
+                    String scanFreq = String.format(Locale.ENGLISH,"%dMHz", msg.arg1/1000) ;
+                    String foundChannels = String.format(Locale.ENGLISH,"%d", msg.arg2%10000) ;
+                    int progress = (int) ((msg.arg2/10000)  * 3.6);
+                    LogUtil.i(TAG,"progress:" + progress);
+                    activity.showInfo( foundChannels, scanFreq) ;
+                    activity.setScanProgress(progress) ;
                 	break ;
 
                 case SCAN_CHANNEL_FINISHED:
-                	activity.setScanProgress(100) ;
                     if (msg.arg1 == 0){
-                        Toast.makeText(DTVApplication.getAppContext(),"No Chanel Found!",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DTVApplication.getAppContext(),DTVApplication.getAppResources().
+                                getString(R.string.nochannletips),Toast.LENGTH_SHORT).show();
                     }
-                    String chanelCount = Integer.toString(msg.arg1);
-                	activity.showInfo("100%", "Found channels:" + chanelCount) ;
-                	break ;
+                    String freq = String.format(Locale.ENGLISH,"%dMHz", activity.mScaningFreq) ;
+                    String count = String.valueOf(msg.arg1);
+                    activity.showInfo( count, freq) ;
+                    activity.setScanProgress(360) ;
+                    break ;
 
                 case SCAN_CHANNEL_CLOSED:
                     activity.setResult(0);
@@ -132,7 +129,7 @@ public class ScanChannelActivity extends AppCompatActivity {
                     break ;
             }
         }
-    };   
+    }
     
     @Override
     protected void onDestroy() {

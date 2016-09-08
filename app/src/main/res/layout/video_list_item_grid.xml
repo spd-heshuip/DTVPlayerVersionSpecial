@@ -11,12 +11,24 @@
         android:layout_height="match_parent">
 
         <Button
+            android:id="@+id/move"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:background="@color/grey400"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textSize="17sp"
+            android:text="@string/move"
+            tools:ignore="RtlHardcoded" />
+
+        <Button
             android:id="@+id/delete"
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/move"
             android:background="@color/red"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textSize="17sp"
             android:text="@string/delete"
@@ -28,11 +40,14 @@
             style="@style/Widget.AppCompat.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/grey600"
+            android:background="@color/grey400"
             android:layout_centerVertical="true"
             android:textSize="17sp"
             android:text="@string/top"
             tools:ignore="RtlHardcoded" />
+
+
+
     </RelativeLayout>
 
     <FrameLayout
@@ -43,20 +58,40 @@
         android:foreground="?attr/selectableItemBackground"
         tools:ignore="UselessParent">
 
-        <View
-            android:id="@+id/drag_handle"
-            android:layout_width="25dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="top|left"
-            android:background="@color/grey600"
-            android:clickable="true" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/drag_handle"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="top|left"
+                android:gravity="center"
+                android:background="@color/grey400"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:clickable="true" />
+
+            <View
+                android:id="@+id/line_divide"
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="top|left"
+                android:background="@color/grey400"
+                android:clickable="true" />
+
+        </LinearLayout>
+
 
         <RelativeLayout
             android:id="@+id/program_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="25dp"
-            android:background="@color/grey900"
+            android:layout_marginLeft="52dp"
+            android:background="@color/white"
             android:layout_gravity="center_vertical"
             tools:ignore="RtlHardcoded">
 
@@ -69,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/program_name_text_size_grid"
                 tools:ignore="RtlHardcoded"/>
 
@@ -82,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/program_name_text_size_grid"
                 tools:ignore="RtlHardcoded"/>
 

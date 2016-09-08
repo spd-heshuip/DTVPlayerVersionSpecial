@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:background="@color/earda_background"
-    android:layout_height="match_parent">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:background="@color/earda_background"
+                android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/company"
@@ -16,18 +16,52 @@
         android:src="@drawable/eardatek_white"
         />
 
-    <com.eardatek.player.dtvplayer.widget.ProgressWheel
+    <FrameLayout
         android:id="@+id/progres"
-        android:layout_width="@dimen/progresswheel_width_dimens"
-        android:layout_height="@dimen/progress_height_dimens"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_centerInParent="true">
+
+        <com.eardatek.player.dtvplayer.widget.ProgressWheel
+            android:id="@+id/progreswheel"
+            android:layout_width="@dimen/progresswheel_width_dimens"
+            android:layout_height="@dimen/progress_height_dimens"
+            android:layout_gravity="center"
+            app:barColor="@color/earda_background"
+            app:barsLength="30dp"
+            app:barWidth="8dp"
+            app:rimColor="@color/white"
+            app:rimWidth="8dp"
+            app:contourColor="@color/transparent" />
+
+        <ImageView
+            android:id="@+id/image_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:src="@drawable/ok"/>
+
+    </FrameLayout>
+
+
+    <!--
+    <com.dd.CircularProgressButton
+        android:id="@+id/progres"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"
-        ProgressWheel:barColor="@color/grey500"
-        ProgressWheel:barsLength="30dp"
-        ProgressWheel:barWidth="8dp"
-        ProgressWheel:rimColor="@color/cadetblue"
-        ProgressWheel:rimWidth="8dp"
-        ProgressWheel:contourColor="@color/transparent" />
+        app:cpb_colorIndicator="@color/cadetblue"
+        app:cpb_colorIndicatorBackground="@color/white"
+        app:cpb_colorProgress="@color/transparent"
+        app:cpb_selectorIdle="@drawable/selector_idle_state"
+        app:cpb_selectorComplete="@drawable/selector_complete_state"
+        app:cpb_selectorError="@drawable/selector_err_state"
+        app:cpb_iconComplete="@drawable/ok"
+        app:cpb_iconError="@drawable/cancel"/>
+    -->
 
     <TextView
         android:id="@+id/welcome"
@@ -39,29 +73,33 @@
         android:gravity="center"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:text="@string/welcome"/>
+        android:text="@string/enjoy"/>
 
     <TextView
-        android:id="@+id/enjoy"
+        android:id="@+id/connecting"
         android:layout_below="@id/progres"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textSize="18sp"
         android:textColor="@color/white"
-        android:text="@string/enjoy"/>
+        android:text="@string/connecting"/>
 
     <Button
         android:id="@+id/next"
-        android:layout_below="@id/enjoy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_below="@id/connecting"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:visibility="invisible"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/white"
+        android:layout_marginTop="40dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/black"
         android:textSize="15sp"
-        android:text="@string/next"/>
+        android:text="@string/next"
+        android:background="@drawable/selector_connect_button"/>
 
 </RelativeLayout>

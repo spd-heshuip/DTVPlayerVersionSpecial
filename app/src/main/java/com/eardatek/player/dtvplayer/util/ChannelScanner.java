@@ -2,7 +2,6 @@ package com.eardatek.player.dtvplayer.util;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.blazevideo.libdtv.ChannelInfo;
 import com.blazevideo.libdtv.LibDTV;
@@ -59,7 +58,7 @@ public class ChannelScanner
 			String opt[]={":no-video",":no-audio"};
 
 			String tvType = mTuner.getTvType() ;
-			int[] mFreqList = null;
+			int[] mFreqList;
 			if (activity.getFreq() > 0){
 				mAdvance_SearchList[0] = activity.getFreq();
 				mFreqList = mAdvance_SearchList;
@@ -164,7 +163,7 @@ public class ChannelScanner
 		}
 	}
 	
-	public boolean startScan( ) {
+	public boolean  startScan( ) {
 		mScanThread = new Thread(new ScanThread(mActivity));
 		mScanThread.start();
 		return true ;
@@ -183,14 +182,10 @@ public class ChannelScanner
 
 	private List<EpgItem> getEpgInfo(String servicename){
         List<EpgItem> mList = EpgUtil.loadEpg(servicename);
-        if (mList != null){
-//            for (int i = 0;i < mList.size();i++){
-//            }
-        }
+
         return mList;
     }
 
-	private static int VIDEO = 0;
 	private static int RADIO = 1;
 
     /**
@@ -201,11 +196,12 @@ public class ChannelScanner
      */
 	private int isVideoService( int serviceID, String pidList ) {
 		String prgPidList[] = pidList.split(";");
-		for( int i = 0 ; i < prgPidList.length ; i++ ) {
-			String prgParams[] = prgPidList[i].split(":") ;
-			if( (Integer.parseInt(prgParams[0]) == serviceID) &&
-                    (prgParams[1].equals("3")))
-				return VIDEO ;
+		for (String aPrgPidList : prgPidList) {
+			String prgParams[] = aPrgPidList.split(":");
+			int VIDEO = 0;
+			if ((Integer.parseInt(prgParams[0]) == serviceID) &&
+					(prgParams[1].equals("3")))
+				return VIDEO;
 		}
 		
 		return RADIO ;
@@ -221,45 +217,45 @@ public class ChannelScanner
      * @return
      */
 	private List<ChannelInfo> parseProgramList(String xml, String pidList, int freq, int bw, int plp) {
-		List<ChannelInfo> mediaList = new ArrayList<ChannelInfo>();
+		List<ChannelInfo> mediaList = new ArrayList<>();
 		
 		String prgs[] = xml.split(";") ;
-		for( int i = 0 ; i < prgs.length ; i++ ) {
-			int serviceID = 0 ;
-			String serviceName  = "";
+		for (String prg : prgs) {
+			int serviceID = 0;
+			String serviceName = "";
 			String providerName = "";
-            int isRadio = 0;//no radio
+			int isRadio = 0;//no radio
 
-            String params[] = prgs[i].split(":");
-			if( params.length > 0 )
+			String params[] = prg.split(":");
+			if (params.length > 0)
 				serviceID = Integer.parseInt(params[0]);
-			
-			if( isVideoService( serviceID, pidList ) == RADIO){
+
+			if (isVideoService(serviceID, pidList) == RADIO) {
 				isRadio = 1;//radio
-			}else
+			} else
 				isRadio = 0;
 
-			if( params.length > 1 ){
+			if (params.length > 1) {
 				String nameParams[] = params[1].split("\\[");
-				if( nameParams.length > 0 )
-					serviceName  = nameParams[0];
-				
-				if( nameParams.length > 1 ) {
+				if (nameParams.length > 0)
+					serviceName = nameParams[0];
+
+				if (nameParams.length > 1) {
 					providerName = nameParams[1];
-					if( providerName.length() > 1 )
-						providerName = providerName.substring( 0, providerName.length()-1 );
+					if (providerName.length() > 1)
+						providerName = providerName.substring(0, providerName.length() - 1);
 				}
 			}
 
-            getEpgInfo(String.format(Locale.ENGLISH,"%s [Program %d]", serviceName.trim(), serviceID));
-			
-			String location = String.format(Locale.ENGLISH,"freq%d-bw%d-plp%d-prog%d-isradio%d", freq, bw, plp, serviceID,isRadio);
-			
-			if( serviceName.isEmpty() )
-				serviceName = String.format(Locale.ENGLISH,"service-%d-%d", freq, serviceID );
-			
-			ChannelInfo media = new ChannelInfo(location, serviceName ) ;
-			mediaList.add(media) ;
+			getEpgInfo(String.format(Locale.ENGLISH, "%s [Program %d]", serviceName.trim(), serviceID));
+
+			String location = String.format(Locale.ENGLISH, "freq%d-bw%d-plp%d-prog%d-isradio%d", freq, bw, plp, serviceID, isRadio);
+
+			if (serviceName.isEmpty())
+				serviceName = String.format(Locale.ENGLISH, "service-%d-%d", freq, serviceID);
+
+			ChannelInfo media = new ChannelInfo(location, serviceName);
+			mediaList.add(media);
 		}
 		
 		return mediaList ;

@@ -19,8 +19,7 @@ public class ViewHolder extends RecyclerView.ViewHolder{
     }
 
     public int getmPosition() {
-        int  position = getLayoutPosition();
-        return position;
+        return getLayoutPosition();
     }
 
     public <T extends View> T getView(int resId){

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,12 +38,14 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Administrator on 16-7-25.
  */
 public class SwipeWithButtonFragment extends StatedFragment implements SwipeableWithButtonAdapter.OnItemMoveListenner{
+
+    private static final String TAG = SwipeWithButtonFragment.class.getSimpleName();
+
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
@@ -66,15 +67,10 @@ public class SwipeWithButtonFragment extends StatedFragment implements Swipeable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_program,container,false);
+        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.gridViewChannels);
+        init();
         return mRootView;
     }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        init();
-    }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -84,7 +80,6 @@ public class SwipeWithButtonFragment extends StatedFragment implements Swipeable
     }
 
     private void init(){
-        mRecyclerView = (RecyclerView) mRootView.findViewById(R.id.gridViewChannels);
 
         mLayoutManager = new LinearLayoutManager(getContext());
 
@@ -150,12 +145,12 @@ public class SwipeWithButtonFragment extends StatedFragment implements Swipeable
     }
 
     private void restoreSwipedPosition(){
-        LogUtil.i("SwipeableWithButtonAdapter","" + ((SwipeableWithButtonAdapter)mAdapter).getSwipedPosition());
+//        LogUtil.i("SwipeableWithButtonAdapter","" + ((SwipeableWithButtonAdapter)mAdapter).getSwipedPosition());
         if (((SwipeableWithButtonAdapter)mAdapter).getSwipedPosition() >= 0){
             AbstractDataProvider.Data data = getDataProvider().getItem(((SwipeableWithButtonAdapter)mAdapter).getSwipedPosition());
             if (data.isPinned()) {
                 // unpin if tapped the pinned item
-                LogUtil.i("SwipeableWithButtonAdapter","data.isPinned()" + data.isPinned());
+//                LogUtil.i("SwipeableWithButtonAdapter","data.isPinned()" + data.isPinned());
                 data.setPinned(false);
                 mAdapter.notifyItemChanged(((SwipeableWithButtonAdapter)mAdapter).getSwipedPosition());
             }
@@ -217,42 +212,12 @@ public class SwipeWithButtonFragment extends StatedFragment implements Swipeable
         return myItemAdapter;
     }
 
-    private SwipeableWithButtonAdapter refreshAdapter(){
-        final SwipeableWithButtonAdapter myItemAdapter = new SwipeableWithButtonAdapter(new TvDataProvider());
-        myItemAdapter.setEventListener(new SwipeableWithButtonAdapter.EventListener() {
-            @Override
-            public void onItemPinned(int position) {
-
-            }
-
-            @Override
-            public void onItemViewClicked(View v) {
-                handleOnItemViewClicked(v);
-            }
-
-            @Override
-            public void onUnderSwipeableViewButtonClicked(View v) {
-                handleOnDeleteButtonClicked(v);
-            }
-
-            @Override
-            public void onContainerLongClicked(View v) {
-                handleContainerLongClick(v);
-            }
-
-            @Override
-            public void onTopButtonClicked(View v) {
-                handleTopButtonClick(v);
-            }
-
-
-        });
-        myItemAdapter.setOnItemMoveListenner(this);
-        return myItemAdapter;
-    }
-
     private void handleOnItemViewClicked(View v){
-        restoreSwipedPosition();
+        if (((SwipeableWithButtonAdapter)mAdapter).getSwipedPosition() >= 0){
+            restoreSwipedPosition();
+            return;
+        }
+
         int position = mRecyclerView.getChildAdapterPosition(v);
         AbstractDataProvider.Data data = getDataProvider().getItem(position);
         if (data.isPinned()) {
@@ -273,6 +238,9 @@ public class SwipeWithButtonFragment extends StatedFragment implements Swipeable
     private void handleOnDeleteButtonClicked(View v) {
         int position = mRecyclerView.getChildAdapterPosition(v);
         if (position != RecyclerView.NO_POSITION) {
+            if (((SwipeableWithButtonAdapter)mAdapter).getSwipedPosition() == position){
+                ((SwipeableWithButtonAdapter)mAdapter).setSwipedPosition(-1);
+            }
             if (((SwipeableWithButtonAdapter)mAdapter).getItem(position).isTop() == 1)
                 ((SwipeableWithButtonAdapter)mAdapter).decreaseTopCount();
             if (((SwipeableWithButtonAdapter)mAdapter).getSelectProgram().
@@ -327,42 +295,7 @@ public class SwipeWithButtonFragment extends StatedFragment implements Swipeable
         restoreSwipedPosition();
         final int position = mRecyclerView.getChildAdapterPosition(v);
         if (position != RecyclerView.NO_POSITION){
-            AbstractDataProvider.Data data = getDataProvider().getItem(position);
-            if (data.isPinned()) {
-                // unpin if tapped the pinned item
-                data.setPinned(false);
-                mAdapter.notifyItemChanged(position);
-            }
-            Bundle bundle = new Bundle();
-            bundle.putInt(PopupDialogFragmennt.TOP_STATE,((SwipeableWithButtonAdapter)mAdapter).isTop(position));
-            PopupDialogFragmennt popupDialogFragmennt = new PopupDialogFragmennt();
-            popupDialogFragmennt.setArguments(bundle);
-            popupDialogFragmennt.setItemOnClickListener(new PopupDialogFragmennt.DialogItemOnClickListener() {
-                @Override
-                public void onTop() {
-                    ((SwipeableWithButtonAdapter)mAdapter).setTop(position);
-                    ((SwipeableWithButtonAdapter)mAdapter).increaseTopCount();
-                    if (((SwipeableWithButtonAdapter)mAdapter).getSelectProgram().
-                            equals(((SwipeableWithButtonAdapter)mAdapter).getItemProgramName(position))){
-                        updatePlayingPosition(0);
-                    }
-                    refreshView();
-                    new Thread(new UpdateDatabaseRunable(SwipeWithButtonFragment.this)).start();
-                }
 
-                @Override
-                public void onCancel() {
-                    ((SwipeableWithButtonAdapter)mAdapter).cancelTop(position);
-                    ((SwipeableWithButtonAdapter)mAdapter).decreaseTopCount();
-                    if (((SwipeableWithButtonAdapter)mAdapter).getSelectProgram().
-                            equals(((SwipeableWithButtonAdapter)mAdapter).getItemProgramName(position))){
-                        updatePlayingPosition(PreferencesUtils.getInt(getActivity(),"topCount"));
-                    }
-                    refreshView();
-                    new Thread(new UpdateDatabaseRunable(SwipeWithButtonFragment.this)).start();
-                }
-            });
-            popupDialogFragmennt.show(getActivity().getFragmentManager(),"popup");
         }
     }
 
@@ -384,7 +317,7 @@ public class SwipeWithButtonFragment extends StatedFragment implements Swipeable
     }
 
     public void refresh(){
-        ListUtil.clearFile("Channel.txt");
+
         PreferencesUtils.putInt(getActivity(),"topCount",0);
         release();
         init();

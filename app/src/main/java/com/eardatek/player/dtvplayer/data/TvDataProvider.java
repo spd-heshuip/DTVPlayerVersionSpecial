@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.blazevideo.libdtv.ChannelInfo;
 import com.eardatek.player.dtvplayer.database.ChannelInfoDB;
 import com.eardatek.player.dtvplayer.util.ListUtil;
-import com.eardatek.player.dtvplayer.util.LogUtil;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 
 import java.io.Serializable;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Administrator on 16-7-25.

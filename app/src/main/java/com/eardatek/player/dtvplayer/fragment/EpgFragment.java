@@ -9,14 +9,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eardatek.player.dtvplayer.R;
@@ -176,7 +172,7 @@ public class EpgFragment extends StatedFragment implements View.OnClickListener{
         private int mServiceId;
 
         public EpgRunable(EpgFragment fragment,String serviceName,int serviceId) {
-            mFragment = new WeakReference<EpgFragment>(fragment);
+            mFragment = new WeakReference<>(fragment);
             mServiceId = serviceId;
             mServiceName = serviceName;
         }

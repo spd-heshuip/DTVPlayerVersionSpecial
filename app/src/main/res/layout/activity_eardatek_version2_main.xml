@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:keepScreenOn="true"
+    tools:context=".actitivy.EardatekVersion2Activity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.AppBarLayout
@@ -25,8 +27,8 @@
 
     <ImageView
         android:id="@+id/lock_unlock"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:scaleType="centerInside"
         android:layout_gravity="center_vertical|left"
         android:layout_marginLeft="5dp"
@@ -38,17 +40,17 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginRight="10dp"
         android:scaleType="fitCenter"
         app:borderWidth="0dp"
-        app:backgroundTint="@color/grey500"
+        app:backgroundTint="#bdbdbd"
         app:rippleColor="@color/grey200"
-        app:layout_behavior="com.eardatek.player.dtvplayer.widget.ScrollAwareFABBehavior"
         android:src="@drawable/scan"
+        app:layout_behavior="com.eardatek.player.dtvplayer.widget.ScrollAwareFABBehavior"
         tools:ignore="RtlHardcoded" />
 
 </android.support.design.widget.CoordinatorLayout>

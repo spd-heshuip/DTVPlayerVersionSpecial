@@ -3,15 +3,15 @@ package com.eardatek.player.dtvplayer.util;
 import android.app.Activity;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 
 
-import java.io.FileNotFoundException;
+import com.eardatek.player.dtvplayer.system.Constants;
+import com.eardatek.player.dtvplayer.system.DTVApplication;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
-import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -42,6 +42,7 @@ public final class NetTunerCtrl {
 
     private static Socket mSocket = null;
     private String mTvType = "DVB-T" ;
+	private String mSoftwareVersion;
 
     //plp count
 	private int mPLPCount = 1 ;
@@ -178,14 +179,13 @@ public final class NetTunerCtrl {
 			return "";
 		
 		int len = posEnd - posValue;
-		String value = xml.substring( posValue, posValue+len );
-		
-		return value ;
+
+		return xml.substring( posValue, posValue+len );
 	}
 	
 	private int getRetValue( String xml ) {
 		String val = getParamValue( xml, "ret", "\"", "\"" ) ;
-		if( val == "" )
+		if( val.equals(""))
 			return -1 ;
 		
 		return Integer.parseInt( val ) ;
@@ -249,21 +249,30 @@ public final class NetTunerCtrl {
 		// 解释得到电视制式
 		 if( mDeviceInfo.isEmpty() )
 			 mTvType = "DVB-T" ;
-		 else if( mDeviceInfo.contains("T2"))
-			 mTvType = "DVB-T2" ;
 		 else if( mDeviceInfo.contains("DVB"))
-			 mTvType = "DVB-T" ;
+			 mTvType = "DVB" ;
 		 else if( mDeviceInfo.contains("ISDB"))
 			 mTvType = "ISDB" ;
-		 else if( mDeviceInfo.contains("DMB"))
-			 mTvType = "TDMB" ;
-		 else
-			 mTvType = "DVB-T" ;
+		 else if( mDeviceInfo.contains("DTMB"))
+			 mTvType = "DTMB" ;
+
+
+		mSoftwareVersion = getParamValue(ack,"softwareversion","\"","\"");
+		if (mSoftwareVersion != null){
+			PreferencesUtils.putString(DTVApplication.getAppContext(), Constants.SOFWARE_VERSION,mSoftwareVersion);
+		}
+		if (mTvType != null){
+			PreferencesUtils.putString(DTVApplication.getAppContext(),Constants.DEVICE_TYPE,mTvType);
+		}
 		
 		return true ;
 	}
 
-    //Tv type DVB-T/T2 or ISDBT or DTMB or ATSC
+	public String getSoftwareVersion() {
+		return PreferencesUtils.getString(DTVApplication.getAppContext(),Constants.SOFWARE_VERSION);
+	}
+
+	//Tv type DVB-T/T2 or ISDBT or DTMB or ATSC
 	public String getTvType() {
 		return mTvType ;
 	}
@@ -432,10 +441,8 @@ public final class NetTunerCtrl {
 		req = req.replace('\'', '\"' );
 		String ack = exchangeMessage( req ,false);
 		int ret = getRetValue( ack ) ;
-		if( ret != 0 )
-			return false ;
+		return ret == 0;
 
-		return true ;
 	}
 
 	/**
@@ -501,7 +508,7 @@ public final class NetTunerCtrl {
                             if(isFirstLogin)
 							    mHandler.sendEmptyMessage(2); // 正在连接...
 							boolean bOK = connectToServer();
-							LogUtil.i("EardatekVersion2","connectToServer" + bOK + "");
+//							LogUtil.i("EardatekVersion2","connectToServer" + bOK + "");
 							if( !bOK ) {
                                 if (isFirstLogin)
 								    mHandler.sendEmptyMessage(1); // 连接失败
@@ -510,9 +517,10 @@ public final class NetTunerCtrl {
 							}
 							else {
                                 bOK = login();
-								LogUtil.i("EardatekVersion2","login" + bOK + "");
+//								LogUtil.i("EardatekVersion2","login" + bOK + "");
 								if( !bOK ) {
-									mSocket.close();
+									if (mSocket != null)
+										mSocket.close();
 									mSocket = null ;
                                     if (isFirstLogin)
 							    		mHandler.sendEmptyMessage(1); // // 连接失败
@@ -540,7 +548,7 @@ public final class NetTunerCtrl {
 									int len = is.read(buffer);
 									if (len < 0){
 										len = 0;
-										LogUtil.i("EardatekVersion2","receive the heartbeat fail!");
+//										LogUtil.i("EardatekVersion2","receive the heartbeat fail!");
 										mSocket.close();
 										mSocket = null;
 										mHandler.sendEmptyMessage(4);

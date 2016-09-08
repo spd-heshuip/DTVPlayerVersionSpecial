@@ -12,8 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 
-import com.eardatek.player.dtvplayer.util.LogUtil;
-
 /**
  * Created by Administrator on 16-7-28.
  */

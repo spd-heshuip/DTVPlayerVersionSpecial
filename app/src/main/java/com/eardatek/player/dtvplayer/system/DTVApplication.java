@@ -5,17 +5,15 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.eardatek.player.dtvplayer.database.ChannelInfoDB;
-import com.eardatek.player.dtvplayer.util.CrashHandler;
 import com.eardatek.player.dtvplayer.util.LogUtil;
 
 public class DTVApplication extends Application {
     public final static String TAG = "EardatekVersion2";
 
-    public static final int WIFI_REQUEST_CODE = 1;
-    public static final int SCAN_CHANNEL_REQUEST_CODE = 2;
+
     public static final String SURFACE_HEIGHT = "surface_height";
 
-    public static StringBuffer WIFI_NAME = null;
+    public static StringBuffer WIFI_NAME = new StringBuffer();
 
     private static DTVApplication instance;
 

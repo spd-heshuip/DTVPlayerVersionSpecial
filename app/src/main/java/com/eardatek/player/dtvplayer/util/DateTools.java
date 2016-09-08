@@ -1,5 +1,6 @@
 package com.eardatek.player.dtvplayer.util;
 
+import android.annotation.SuppressLint;
 import android.text.TextUtils;
 
 import java.text.ParseException;
@@ -19,7 +20,7 @@ public class DateTools {
         if (TextUtils.isEmpty(cc_time) || "null".equals(cc_time)) {
             return re_StrTime;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         // 例如：cc_time=1291778220
         long lcc_time = Long.valueOf(cc_time);
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
@@ -32,7 +33,7 @@ public class DateTools {
      */
     public static String getStrTime_ymd_hms(String cc_time) {
         String re_StrTime = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 例如：cc_time=1291778220
         long lcc_time = Long.valueOf(cc_time);
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
@@ -45,7 +46,7 @@ public class DateTools {
      */
     public static String getStrTime_ymd(String cc_time) {
         String re_StrTime = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         // 例如：cc_time=1291778220
         long lcc_time = Long.valueOf(cc_time);
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
@@ -57,7 +58,7 @@ public class DateTools {
      */
     public static String getStrTime_y(String cc_time) {
         String re_StrTime = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         // 例如：cc_time=1291778220
         long lcc_time = Long.valueOf(cc_time);
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
@@ -69,7 +70,7 @@ public class DateTools {
      */
     public static String getStrTime_md(String cc_time) {
         String re_StrTime = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
         // 例如：cc_time=1291778220
         long lcc_time = Long.valueOf(cc_time);
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
@@ -81,7 +82,7 @@ public class DateTools {
      */
     public static String getStrTime_hm(String cc_time) {
         String re_StrTime = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         // 例如：cc_time=1291778220
         long lcc_time = Long.valueOf(cc_time);
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
@@ -93,7 +94,7 @@ public class DateTools {
      */
     public static String getStrTime_hms(String cc_time) {
         String re_StrTime = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         // 例如：cc_time=1291778220
         long lcc_time = Long.valueOf(cc_time);
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
@@ -105,7 +106,7 @@ public class DateTools {
      */
     public static String getNewsDetailsDate(String cc_time) {
         String re_StrTime = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm:ss");
         // 例如：cc_time=1291778220
         long lcc_time = Long.valueOf(cc_time);
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
@@ -118,7 +119,7 @@ public class DateTools {
     public static String getTime() {
         String re_time = null;
         long currentTime = System.currentTimeMillis();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         Date d;
         d = new Date(currentTime);
         long l = d.getTime();
@@ -132,7 +133,7 @@ public class DateTools {
      */
     public static String getTimeToday(long times) {
         String re_time = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         Date d;
         d = new Date(times);
         String str = sdf.format(d);
@@ -145,7 +146,7 @@ public class DateTools {
      */
     public static String getSection(String cc_time) {
         String re_StrTime = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd  EEEE");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd  EEEE");
         // 对于创建SimpleDateFormat传入的参数：EEEE代表星期，如“星期四”；MMMM代表中文月份，如“十一月”；MM代表月份，如“11”；
         // yyyy代表年份，如“2010”；dd代表天，如“25”
         // 例如：cc_time=1291778220
@@ -156,7 +157,7 @@ public class DateTools {
 
     /** 将时间String转换成long 例如2015-12-12 12:15 */
     public static long getLongTim(String strTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             return sdf.parse(strTime).getTime();
         } catch (ParseException e) {

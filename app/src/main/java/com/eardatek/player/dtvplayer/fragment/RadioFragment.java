@@ -1,6 +1,5 @@
 package com.eardatek.player.dtvplayer.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import com.blazevideo.libdtv.ChannelInfo;
 import com.eardatek.player.dtvplayer.R;
 import com.eardatek.player.dtvplayer.actitivy.EardatekVersion2Activity;
 import com.eardatek.player.dtvplayer.adapter.RadioChanelGridAdapter;
-import com.eardatek.player.dtvplayer.adapter.TvChannelGridAdapter;
 import com.eardatek.player.dtvplayer.callback.MyEvents;
 import com.eardatek.player.dtvplayer.callback.OnDataBaseChangeListener;
 import com.eardatek.player.dtvplayer.callback.OnDeleteItem;
@@ -27,7 +25,6 @@ import com.eardatek.player.dtvplayer.callback.OnRadioChanelItemClickListener;
 import com.eardatek.player.dtvplayer.callback.OnStartDragOrSwipeListener;
 import com.eardatek.player.dtvplayer.callback.OnStateChangeListener;
 import com.eardatek.player.dtvplayer.database.ChannelInfoDB;
-import com.eardatek.player.dtvplayer.util.LogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

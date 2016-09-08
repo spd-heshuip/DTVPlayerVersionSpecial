@@ -143,9 +143,9 @@ public class ViewServer implements Runnable {
     private ExecutorService mThreadPool;
 
     private final List<WindowListener> mListeners =
-            new CopyOnWriteArrayList<WindowListener>();
+            new CopyOnWriteArrayList<>();
 
-    private final HashMap<View, String> mWindows = new HashMap<View, String>();
+    private final HashMap<View, String> mWindows = new HashMap<>();
     private final ReentrantReadWriteLock mWindowsLock = new ReentrantReadWriteLock();
 
     private View mFocusedWindow;
