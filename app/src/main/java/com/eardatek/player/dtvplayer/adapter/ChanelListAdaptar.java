@@ -3,6 +3,7 @@ package com.eardatek.player.dtvplayer.adapter;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,10 @@ public class ChanelListAdaptar extends RecyclerView.Adapter<ChanelListAdaptar.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         TvDataProvider.ConcreteData channelInfo = mChanelList.get(position);
 
-        holder.mChanelName.setText(ChannelInfoDB.getInstance().getChannelInfo(channelInfo.getText()).getTitle());
+        String channelName = ChannelInfoDB.getInstance().getChannelInfo(channelInfo.getText()).getTitle();
+        if (TextUtils.isEmpty(channelName))
+            return;
+        holder.mChanelName.setText(channelName);
         holder.mChanelName.setTag(channelInfo.getText());
 
         if (channelInfo.getText().equals(mSelectProgramLocation.toString())){

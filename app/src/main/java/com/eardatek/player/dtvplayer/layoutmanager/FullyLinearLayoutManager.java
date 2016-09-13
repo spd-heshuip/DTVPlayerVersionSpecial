@@ -76,6 +76,8 @@ public class FullyLinearLayoutManager extends LinearLayoutManager {
 
     private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,
                                    int heightSpec, int[] measuredDimension) {
+        if (position < 0)
+            return;
         try {
             View view = recycler.getViewForPosition(position);//fix 动态添加时报IndexOutOfBoundsException
 

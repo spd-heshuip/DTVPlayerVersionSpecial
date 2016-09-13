@@ -87,7 +87,7 @@ public class ChannelInfoDB {
                     + MEDIA_TABLE_NAME + " ("
                     + MEDIA_TABLE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + MEDIA_LOCATION + " TEXT NOT NULL, "
-                    + MEDIA_TITLE + " TEXT "
+                    + MEDIA_TITLE + " TEXT NOT NULL"
                     + ");";
             db.execSQL(query);
         }
@@ -112,7 +112,7 @@ public class ChannelInfoDB {
         return -1;
     }
 
-    public void insertOrUpdate(String location, String title){
+    public synchronized void insertOrUpdate(String location, String title){
         ContentValues values = new ContentValues();
         values.put(MEDIA_LOCATION,location);
         values.put(MEDIA_TITLE,title);
@@ -124,13 +124,13 @@ public class ChannelInfoDB {
             mDb.update(MEDIA_TABLE_NAME, values, "_id=?", new String[]{Integer.toString(id)});
     }
 
-    public  void addChannelInfo(ChannelInfo media) {
+    public void addChannelInfo(ChannelInfo media) {
 //        mDb.replace(MEDIA_TABLE_NAME, MEDIA_LOCATION, values);
 //        Log.i(TAG,"add chanel info");
         insertOrUpdate( media.getLocation(),media.getTitle());
     }
 
-    public List<ChannelInfo> getAllChannelInfo()
+    public synchronized List<ChannelInfo> getAllChannelInfo()
     {
     	List<ChannelInfo> ret = new ArrayList<>();
         int chunk_count = 0;
@@ -170,7 +170,7 @@ public class ChannelInfoDB {
     	return ret;
     }
 
-    public List<ChannelInfo> getAllVideoProgram(){
+    public synchronized List<ChannelInfo> getAllVideoProgram(){
         List<ChannelInfo> videoList = new ArrayList<>();
         List<ChannelInfo> allList = getAllChannelInfo();
         for (ChannelInfo channelInfo : allList){
@@ -182,7 +182,7 @@ public class ChannelInfoDB {
         return videoList;
     }
 
-    public List<ChannelInfo> getAllRadioProgram(){
+    public synchronized List<ChannelInfo> getAllRadioProgram(){
         List<ChannelInfo> radioList = new ArrayList<>();
         List<ChannelInfo> allList = getAllChannelInfo();
         for (ChannelInfo channelInfo : allList){
@@ -194,34 +194,8 @@ public class ChannelInfoDB {
 
         return radioList;
     }
-    
-    public ChannelInfo getChannelInfo(int id){
-        String[] colums = new String[]{MEDIA_TITLE,MEDIA_LOCATION};
-        String selections = "_id=?";
-        String[] selectionArgss = {String.valueOf(id)};
-        Cursor cursor = null;
-        ChannelInfo media = null;
 
-        try {
-            cursor = mDb.query(MEDIA_TABLE_NAME,colums,selections,selectionArgss,null,null,null);
-            if (cursor != null && cursor.moveToFirst()){
-                media = new ChannelInfo(cursor.getString(0),cursor.getString(1));
-            }
-        }catch(IllegalArgumentException e) {
-            // java.lang.IllegalArgumentException: the bind value at index 1 is null
-            if (cursor != null)
-                cursor.close();
-            return null;
-        }finally {
-            if (cursor != null){
-                cursor.close();
-            }
-        }
-
-        return media;
-    }
-
-    public  ChannelInfo getChannelInfo(String location) {
+    public  synchronized ChannelInfo getChannelInfo(String location) {
 
         Cursor cursor = null;
         ChannelInfo media = null;
@@ -257,12 +231,12 @@ public class ChannelInfoDB {
      * Empty the database for debugging purposes
      */
     public synchronized void emptyDatabase() {
-        int ret = mDb.delete(MEDIA_TABLE_NAME, null, null);
+        mDb.delete(MEDIA_TABLE_NAME, null, null);
     }
 
-    public synchronized void deleteChanelInfo(String title,String location){
+    public synchronized int deleteChanelInfo(String title,String location){
         String whereClause = "location=?";
         String[] whereArgs = {location};
-        int ret = mDb.delete(MEDIA_TABLE_NAME,whereClause,whereArgs);
+        return mDb.delete(MEDIA_TABLE_NAME,whereClause,whereArgs);
     }
 }

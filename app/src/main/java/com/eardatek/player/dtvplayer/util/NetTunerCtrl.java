@@ -79,9 +79,14 @@ public final class NetTunerCtrl {
 		try {
 			mSocket = new Socket();
 			SocketAddress sa = new InetSocketAddress(mServerIP, mServerPort);
-			mSocket.connect(sa, 3000) ;
-			if( !mSocket.isConnected() ) {
-				mSocket.close() ;
+			if (mSocket != null)
+				mSocket.connect(sa, 3000) ;
+			else{
+				return false;
+			}
+			if( !mSocket.isConnected() || mSocket == null) {
+				if (mSocket != null)
+					mSocket.close() ;
 				mSocket = null ;
 				return false ;
 			}

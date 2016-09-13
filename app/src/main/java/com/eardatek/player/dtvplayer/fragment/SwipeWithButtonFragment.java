@@ -14,12 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.Button;
+
 import com.eardatek.player.dtvplayer.R;
 import com.eardatek.player.dtvplayer.actitivy.EardatekVersion2Activity;
 import com.eardatek.player.dtvplayer.adapter.SwipeableWithButtonAdapter;
 import com.eardatek.player.dtvplayer.callback.MyEvents;
 import com.eardatek.player.dtvplayer.data.AbstractDataProvider;
-import com.eardatek.player.dtvplayer.data.TvDataProvider;
 import com.eardatek.player.dtvplayer.util.ListUtil;
 import com.eardatek.player.dtvplayer.util.LogUtil;
 import com.eardatek.player.dtvplayer.util.PreferencesUtils;
@@ -219,13 +219,16 @@ public class SwipeWithButtonFragment extends StatedFragment implements Swipeable
         }
 
         int position = mRecyclerView.getChildAdapterPosition(v);
-        AbstractDataProvider.Data data = getDataProvider().getItem(position);
-        if (data.isPinned()) {
-            // unpin if tapped the pinned item
-            data.setPinned(false);
-            mAdapter.notifyItemChanged(position);
-            return;
+        if (position != RecyclerView.NO_POSITION){
+            AbstractDataProvider.Data data = getDataProvider().getItem(position);
+            if (data.isPinned()) {
+                // unpin if tapped the pinned item
+                data.setPinned(false);
+                mAdapter.notifyItemChanged(position);
+                return;
+            }
         }
+
         if (position != RecyclerView.NO_POSITION) {
             String location = ((SwipeableWithButtonAdapter)mAdapter).getItem(position).getText();
             ((SwipeableWithButtonAdapter)mAdapter).setSelectProgram(((SwipeableWithButtonAdapter)mAdapter).
@@ -317,7 +320,6 @@ public class SwipeWithButtonFragment extends StatedFragment implements Swipeable
     }
 
     public void refresh(){
-
         PreferencesUtils.putInt(getActivity(),"topCount",0);
         release();
         init();

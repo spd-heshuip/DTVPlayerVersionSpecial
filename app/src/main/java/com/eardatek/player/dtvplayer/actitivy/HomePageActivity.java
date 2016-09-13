@@ -69,7 +69,8 @@ public class HomePageActivity extends BaseActivity{
         mConnect = (TextView) findViewById(R.id.connecting);
         mProgress = (ProgressWheel) findViewById(R.id.progreswheel);
         mImageState = (ImageView) findViewById(R.id.image_state);
-
+        TextView mVersionName = (TextView) findViewById(R.id.version_text);
+        mVersionName.setText(DTVApplication.getVersionInfo());
         mProgress.spin();
         animateOut();
 

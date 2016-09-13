@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.blazevideo.libdtv.ChannelInfo;
 import com.eardatek.player.dtvplayer.database.ChannelInfoDB;
 import com.eardatek.player.dtvplayer.util.ListUtil;
+import com.eardatek.player.dtvplayer.util.LogUtil;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 
 import java.io.Serializable;
@@ -92,10 +93,21 @@ public class TvDataProvider extends AbstractDataProvider{
         //noinspection UnnecessaryLocalVariable
         final AbstractDataProvider.Data item = mChannelList.get(position);
         String name = ChannelInfoDB.getInstance().getChannelInfo(item.getText()).getTitle().trim();
-        mDB.deleteChanelInfo(name, item.getText());
+        int ret = mDB.deleteChanelInfo(name, item.getText());
+        LogUtil.i("EardatekVersion2Activity","delete count:" + ret);
+        if (ret > 1){
+            for (int i = 0;i < mChannelList.size(); i++){
+                if (mChannelList.get(i).getText().equals(item.getText())){
+                    mChannelList.remove(i);
+                    mLastRemovedPosition = i;
+                }
+            }
+        }else {
+            mLastRemovedData = mChannelList.remove(position);
+            mLastRemovedPosition = position;
+        }
 
-        mLastRemovedData = mChannelList.remove(position);
-        mLastRemovedPosition = position;
+
     }
 
     @Override

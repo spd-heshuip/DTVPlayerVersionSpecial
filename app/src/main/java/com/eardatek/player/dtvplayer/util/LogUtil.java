@@ -6,7 +6,7 @@ import android.util.Log;
  * Created by Administrator on 16-4-28.
  */
 public class LogUtil {
-    public static int DEBUG_LEVEL = 6;
+    public static int DEBUG_LEVEL = 0;
 
     private static final int VERBOSE = 5;
     private static final int DEBUG = 4;

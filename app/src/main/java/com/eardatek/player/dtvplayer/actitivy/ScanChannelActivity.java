@@ -124,7 +124,8 @@ public class ScanChannelActivity extends AppCompatActivity {
 
                 case SCAN_CHANNEL_CLOSED:
                     activity.setResult(0);
-                    activity.mHandler.removeCallbacksAndMessages(null);
+                    if (activity.mHandler != null)
+                        activity.mHandler.removeCallbacksAndMessages(null);
                     activity.finish();
                     break ;
             }

@@ -93,4 +93,7 @@
     <string name="_0">0</string>
     <string name="_0mhz">0MHZ</string>
 
+    <string name="version_name">Version:</string>
+
+
 </resources>
