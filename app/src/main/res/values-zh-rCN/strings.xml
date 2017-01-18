@@ -5,13 +5,14 @@
     <string name="action_settings">Setting</string>
     <string name="title_main">HDTV Player</string>
     <string name="app_title">HDTV Player</string>
-    <string name="scan">正在扫描</string>
+
+    //EardatekVersion2Activity
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="search_toolbar">action_search</string>
     <string name="advance_search">Advanced Search</string>
     <string name="freq">Please Input the frequency point （Units:KHz）</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">取消</string>
     <string name="search">Search</string>
     <string name="stop_play_tips">Try again to quit play</string>
     <string name="quit_app_tips">再按一次，退出程序</string>
@@ -24,9 +25,9 @@
     <string name="scan_tips">The DataBase does not hava Program,Please Press the Button on the top right corner to capture the Program! </string>
     <string name="scan_tips_earda">The DataBase does not hava Program,Please Press the Button on the top left corner to capture the Program! </string>
     <string name="freqtips">无效频点，请重新输入！</string>
-    <string name="scantips">再按一次，退出扫描</string>
     <string name="programguide">Program Guide</string>
     <string name="edit_program_list">edit_program_list</string>
+    <string name="setting_menu">setting_menu</string>
     <string name="delete">删除</string>
     <string name="empty_program_list">确定清空节目列表？</string>
     <string name="toolbar_title">HDTV Player</string>
@@ -53,9 +54,6 @@
     <string name="advance_search_tips">请输入搜索频率（单位：MHz）</string>
     <string name="no_channnel">没有节目!</string>
     <string name="scan_immed">立即扫描</string>
-    <string name="welcome">感谢您使用我们的地面数字电视播放器！</string>
-    <string name="enjoy">享受您的免费电视之旅!</string>
-    <string name="next">下一步</string>
     <string name="connect_now">现在去连接！</string>
     <string name="open_wifi">打开Wifi</string>
     <string name="yes">是</string>
@@ -66,34 +64,95 @@
     <string name="ant_tips">使用外接天线，或者换个地方再试！</string>
     <string name="program_guide">Program Guide</string>
     <string name="pm_2_30">PM 2:30</string>
-    <string name="_100">100%</string>
-    <string name="connecting">正在连接</string>
-    <string name="connected">设备已连接！</string>
-    <string name="disconnect">设备未连接！</string>
     <string name="connect">连接</string>
     <string name="move">移动</string>
     <string name="hardwaredecode">硬件解码</string>
     <string name="switching">正在切换节目，请稍等！</string>
     <string name="quittitle">退出播放器？</string>
     <string name="poweroff">退出后，记得关闭电视宝设备的电源哟！</string>
-    <string name="nochannletips">没有扫描到节目，换个地方试试吧！!</string>
-    <string name="foundchannel">已获取节目:</string>
     <string name="connectsuccess">成功连接到设备！</string>
     <string name="connectfail">连接设备失败，请检查手机是否连接到设备wifi！</string>
     <string name="disconnecttips">设备已断开连接，请检查是否已连接到设备wifi！</string>
-
     <string name="deletetips">您确定吗？</string>
     <string name="deletecontent">删除节目列表将不可恢复！</string>
     <string name="deleteconfirm">节目列表已被删除！</string>
-
-    <string name="signalstrength">信号强度:</string>
     <string name="channels">ch</string>
+    <string name="setting">设置</string>
+    <string name="harddecodeerror">硬解码失败，将自动切换至软解码…</string>
+    <string name="i2c_error">USB芯片已挂起，请重启电视宝！</string>
+    <string name="ok">好</string>
+    <string name="encrypt_tips">抱歉，该节目已加密，无法播放！</string>
+    <string name="videocode">编码方式：</string>
 
+
+    //SccanChannelActivity
+    <string name="scan">正在扫描</string>
     <string name="scaning">正在扫描…</string>
-    <string name="_0">0</string>
+    <string name="foundchannel">已获取节目:</string>
+    <string name="nochannletips">没有扫描到节目，换个地方试试吧！!</string>
+    <string name="_100">100%</string>
     <string name="_0mhz">0MHZ</string>
+    <string name="_0">0</string>
+    <string name="scantips">再按一次，退出扫描</string>
 
+
+
+    //HomePageActivity
     <string name="version_name">版本号：</string>
+    <string name="enjoy">享受您的免费电视之旅!</string>
+    <string name="connecting">正在连接</string>
+    <string name="connected">设备已连接！</string>
+    <string name="disconnect">设备未连接！</string>
+    <string name="next">下一步</string>
+    <string name="welcome">感谢您使用我们的地面数字电视播放器！</string>
+    <string name="downling_fr">正在下载最新版固件…</string>
+    <string name="downl_succ">固件下载成功</string>
+    <string name="verify_fail">校验失败，将跳过更新</string>
+    <string name="downl_fail">固件下载失败，将跳过更新</string>
+    <string name="server_fail">服务器无法接收固件，将跳过更新</string>
+    <string name="verify_server_fail">更新服务器验证失败，将跳过更新</string>
+    <string name="uploading_fr">正在上传固件…</string>
+    <string name="verify_fr">固件校验失败，将跳过更新</string>
+    <string name="upload_fail">上传过程中发生未知错误，将跳过更新</string>
+    <string name="verify_succ">固件校验成功，开始固件更新</string>
+    <string name="update_succ">固件已经更新到最新版本</string>
+    <string name="update_fail">固件更新失败，错误码：</string>
+    <string name="device_uncorrect">设备类型不匹配，将跳过更新！</string>
+    <string name="update_fm">固件更新</string>
+    <string name="check_upda_fm_su">检查到可更新的固件</string>
+    <string name="fr_version">\n版本：</string>
+    <string name="fr_size">\n大小：</string>
+    <string name="fr_type">"\n固件类型： "</string>
+    <string name="update_or_not">\n是否更新？</string>
+    <string name="wait">等待</string>
+    <string name="confirm">确定</string>
+    <string name="ready_update">准备固件更新</string>
+    <string name="update_wifi_reque">更新固件需要连接到设备的wifi，是否连接？</string>
+    <string name="wifi_requ_repeat">未能连接到设备wifi，是否重试？</string>
+    <string name="cancel_update">将跳过更新</string>
+    <string name="chengdu_weishi">威视码电子</string>
+
+
+
+
+
+    //SettingActivity
+    <string name="language">语言</string>
+    <string name="def">默认</string>
+    <string name="english">English</string>
+    <string name="chinese">简体中文</string>
+    <string name="currfreq">当前频率</string>
+    <string name="quality">信号质量</string>
+    <string name="signalstrength">信号强度</string>
+    <string name="nolockfreq">当前无锁定频率</string>
+    <string name="qam">调制方式：</string>
+    <string name="standard">制式标准</string>
+    <string name="nolock">无</string>
+    <string name="signalstatus">信号状态</string>
+    <string name="company_name">易而达科技</string>
+    <string name="connect_update_server_fail">连接更新服务器失败，将跳过更新</string>
+    <string name="rename">重命名</string>
+    <string name="enter_name">请输入节目名</string>
 
 
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.eardatek.player.dtvplayer">
+    package="com.eardatek.special.player">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -20,7 +20,7 @@
         android:name=".system.DTVApplication"
         android:allowBackup="true"
         android:largeHeap="true"
-        android:icon="@mipmap/tv_14"
+        android:icon="@mipmap/tevemo"
         android:label="@string/app_name"
         tools:replace = "android:icon"
         android:theme="@style/AppTheme" >
@@ -36,11 +36,29 @@
             </intent-filter>
         </activity>
         <activity android:name=".actitivy.BaseActivity"/>
+        <activity android:name=".actitivy.SwipeBackBaseActicity"/>
         <activity android:name=".actitivy.EardatekVersion2Activity"
+                  android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".actitivy.ScanChannelActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"/>
+        <activity android:name=".actitivy.SettingActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"/>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57f9a362e0f55ac56c000ad3">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_MESSAGE_SECRET"
+            android:value="fcfc0f2462733d450fd620bd16e166a2">
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" >
+        </meta-data>
     </application>
 
 </manifest>

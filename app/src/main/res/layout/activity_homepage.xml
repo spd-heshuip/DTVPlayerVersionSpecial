@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:background="@color/earda_background"
                 android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/company"
-        android:layout_width="180dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/company_logo_size"
+        android:layout_height="@dimen/company_logo_height"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:scaleType="centerInside"
@@ -23,7 +24,7 @@
         android:layout_marginTop="20dp"
         android:layout_centerInParent="true">
 
-        <com.eardatek.player.dtvplayer.widget.ProgressWheel
+        <com.eardatek.special.player.widget.ProgressWheel
             android:id="@+id/progreswheel"
             android:layout_width="@dimen/progresswheel_width_dimens"
             android:layout_height="@dimen/progress_height_dimens"
@@ -45,24 +46,6 @@
 
     </FrameLayout>
 
-
-    <!--
-    <com.dd.CircularProgressButton
-        android:id="@+id/progres"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
-        app:cpb_colorIndicator="@color/cadetblue"
-        app:cpb_colorIndicatorBackground="@color/white"
-        app:cpb_colorProgress="@color/transparent"
-        app:cpb_selectorIdle="@drawable/selector_idle_state"
-        app:cpb_selectorComplete="@drawable/selector_complete_state"
-        app:cpb_selectorError="@drawable/selector_err_state"
-        app:cpb_iconComplete="@drawable/ok"
-        app:cpb_iconError="@drawable/cancel"/>
-    -->
-
     <TextView
         android:id="@+id/welcome"
         android:layout_above="@id/progres"
@@ -71,7 +54,7 @@
         android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textSize="18sp"
+        android:textSize="@dimen/wecome_text_size"
         android:textColor="@color/white"
         android:text="@string/enjoy"/>
 
@@ -83,27 +66,28 @@
         android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textSize="18sp"
+        android:textSize="@dimen/connecting_text_size"
         android:textColor="@color/white"
         android:text="@string/connecting"/>
 
     <Button
         android:id="@+id/next"
         android:layout_below="@id/connecting"
-        android:layout_width="120dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/next_width"
+        android:layout_height="@dimen/next_height"
         android:visibility="invisible"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_marginTop="@dimen/next_margintop_size"
+        android:paddingLeft="@dimen/next_paddingleft_size"
+        android:paddingRight="@dimen/next_padingright_size"
         android:textColor="@color/black"
-        android:textSize="15sp"
+        android:textSize="@dimen/next_text_size"
         android:text="@string/next"
-        android:background="@drawable/selector_connect_button"/>
+        android:background="@drawable/selector_connect_button"
+        tools:ignore="RtlHardcoded"/>
 
     <TextView
-        android:id="@+id/version_text"
+        android:id="@+id/company_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -111,6 +95,18 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
-        android:textSize="15sp"/>
+        android:text="@string/company_name"
+        android:textSize="@dimen/company_text_size"/>
+
+    <TextView
+        android:id="@+id/version_text"
+        android:layout_above="@id/company_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/version_text_size"/>
 
 </RelativeLayout>

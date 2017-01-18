@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+            android:background="@color/grey400">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.eardatek.special.player.widget.CustomToolbar
+            android:id="@+id/toolbar_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_toolbar"
+            android:minHeight="?attr/actionBarSize"
+            app:title="@string/setting"
+            app:navigationIcon="@drawable/back">
+
+        </com.eardatek.special.player.widget.CustomToolbar>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/setting_language"
+            android:text="@string/language"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#8d8d8d"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/setting_padding">
+
+            <TextView
+                android:id="@+id/china_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:textColor="@color/earda_background"
+                android:textSize="@dimen/setting_china"
+                android:text="@string/chinese"
+                tools:ignore="RtlHardcoded"/>
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/def_switchbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:kswThumbHeight="20dp"
+                app:kswThumbWidth="20dp"
+                app:kswThumbRadius="20dp"
+                app:kswBackMeasureRatio="2.3"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"
+                app:kswThumbColor="@color/white"
+                app:kswBackColor="@color/grey700"
+                tools:ignore="RtlHardcoded"/>
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/setting_padding">
+
+            <TextView
+                android:id="@+id/english_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="left|center_vertical"
+                android:textColor="@color/white"
+                android:textSize="@dimen/setting_english"
+                android:text="@string/english"
+                tools:ignore="RtlHardcoded"/>
+
+            <com.kyleduo.switchbutton.SwitchButton
+                android:id="@+id/english_switchbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:kswThumbHeight="20dp"
+                app:kswThumbWidth="20dp"
+                app:kswThumbRadius="20dp"
+                app:kswBackMeasureRatio="2.3"
+                android:layout_marginRight="10dp"
+                android:checked="false"
+                android:layout_gravity="right"
+                app:kswThumbColor="@color/white"
+                app:kswBackColor="@color/grey700"
+                tools:ignore="RtlHardcoded"/>
+
+        </FrameLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#8d8d8d"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="@dimen/setting_padding"
+                android:layout_gravity="left"
+                android:textColor="@color/white"
+                android:textSize="@dimen/setting_standard"
+                android:text="@string/standard"
+                tools:ignore="RtlHardcoded"/>
+
+            <TextView
+                android:id="@+id/tv_type_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="right"
+                android:textColor="@color/white"
+                android:textSize="@dimen/setting_signal_status"
+                tools:ignore="RtlHardcoded"/>
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#8d8d8d"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/setting_padding"
+            android:textColor="@color/white"
+            android:text="@string/signalstatus"
+            android:textSize="20sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="10dp"
+            android:background="#8d8d8d"/>
+
+        <TextView
+            android:id="@+id/current_freq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/setting_padding"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/text_qam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/setting_padding"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="left">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/setting_padding"
+                    android:padding="10dp">
+
+                    <com.eardatek.special.player.widget.ProgressWheel
+                        android:id="@+id/signal_strength_progreswheel"
+                        android:layout_width="@dimen/setting_signal_width"
+                        android:layout_height="@dimen/setting_signal_height"
+                        android:layout_marginRight="@dimen/setting_margin"
+                        android:layout_marginLeft="@dimen/setting_margin"
+                        app:barColor="@color/earda_background"
+                        app:barWidth="8dp"
+                        app:rimColor="@color/grey600"
+                        app:rimWidth="8dp"
+                        app:contourColor="@color/transparent" />
+
+                    <TextView
+                        android:id="@+id/text_signal_strength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/earda_background"
+                        android:textSize="@dimen/setting_signal_strength_percent"/>
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/signal_strengh_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/signalstrength"
+                    android:textColor="@color/earda_background"
+                    android:textSize="@dimen/setting_signal_strength"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/text_quality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/earda_background"
+                        android:textSize="@dimen/setting_signal_strength_percent"/>
+
+                    <com.eardatek.special.player.widget.ProgressWheel
+                        android:id="@+id/freq_quality_progressWheel"
+                        android:layout_width="@dimen/setting_signal_width"
+                        android:layout_height="@dimen/setting_signal_height"
+                        android:layout_marginRight="@dimen/setting_margin"
+                        android:layout_marginLeft="@dimen/setting_margin"
+                        app:barColor="@color/earda_background"
+                        app:barWidth="8dp"
+                        app:rimColor="@color/grey600"
+                        app:rimWidth="8dp"
+                        app:contourColor="@color/transparent" />
+
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/signal_quality_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/quality"
+                    android:textColor="@color/earda_background"
+                    android:textSize="@dimen/setting_signal_strength"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</ScrollView>

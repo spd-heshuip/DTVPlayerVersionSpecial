@@ -49,4 +49,36 @@
     <dimen name="list_item2_height">96dp</dimen>
     <dimen name="list_group_item_height">96dp</dimen>
     <dimen name="list_group_item_with_add_remove_buttons_height">108dp</dimen>
+    <dimen name="company_logo_size">180dp</dimen>
+    <dimen name="company_logo_height">80dp</dimen>
+    <dimen name="wecome_text_size">18sp</dimen>
+    <dimen name="connecting_text_size">18sp</dimen>
+    <dimen name="version_text_size">15sp</dimen>
+    <dimen name="company_text_size">13sp</dimen>
+    <dimen name="next_width">120dp</dimen>
+    <dimen name="next_height">40dp</dimen>
+    <dimen name="next_paddingleft_size">10dp</dimen>
+    <dimen name="next_padingright_size">10dp</dimen>
+    <dimen name="next_text_size">15sp</dimen>
+    <dimen name="next_margintop_size">40dp</dimen>
+    <dimen name="surface_height">275dp</dimen>
+
+    <!--SettingActivity-->
+    <dimen name="setting_language">20sp</dimen>
+    <dimen name="setting_china">18sp</dimen>
+    <dimen name="setting_english">18sp</dimen>
+    <dimen name="setting_standard">18sp</dimen>
+    <dimen name="setting_signal_status">18sp</dimen>
+    <dimen name="setting_signal_width">150dp</dimen>
+    <dimen name="setting_signal_height">150dp</dimen>
+    <dimen name="setting_signal_strength_percent">20sp</dimen>
+    <dimen name="setting_signal_strength">16sp</dimen>
+    <dimen name="setting_ThumbSize">20dp</dimen>
+
+    <dimen name="setting_padding">10dp</dimen>
+    <dimen name="setting_padding_left">10dp</dimen>
+    <dimen name="setting_padding_right">10dp</dimen>
+    <dimen name="setting_margin">10dp</dimen>
+
+
 </resources>

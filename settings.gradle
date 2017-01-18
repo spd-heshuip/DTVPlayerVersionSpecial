@@ -1,1 +1,1 @@
-include ':app', ':libdtv'
+include ':app', ':libdtv', ':dtmbshanghai', ':PushSDK'

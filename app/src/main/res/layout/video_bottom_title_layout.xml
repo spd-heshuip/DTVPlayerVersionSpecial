@@ -12,7 +12,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="#aa000001"
         android:visibility="visible">
+
+        <TextView
+            android:id="@+id/video_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
+            tools:ignore="RtlHardcoded"/>
 
         <ImageView
             android:id="@+id/fullscreen"

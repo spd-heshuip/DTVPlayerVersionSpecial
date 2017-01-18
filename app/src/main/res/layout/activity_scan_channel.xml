@@ -6,7 +6,7 @@
 	android:orientation="vertical"
 	android:background="@color/white">
 
-	<com.eardatek.player.dtvplayer.widget.CustomToolbar
+	<com.eardatek.special.player.widget.CustomToolbar
         android:id="@+id/toolbar_scan"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
 		app:title="@string/scan"
         app:navigationIcon="@drawable/back">
 
-	</com.eardatek.player.dtvplayer.widget.CustomToolbar>
+	</com.eardatek.special.player.widget.CustomToolbar>
 
 	<ProgressBar
 	    android:id="@+id/progressbar"
@@ -36,11 +36,11 @@
             android:textColor="@color/black"
 	        android:textSize="24sp" />
 
-	    <com.eardatek.player.dtvplayer.widget.RadarSearchView
+	    <com.eardatek.special.player.widget.RadarSearchView
 	        android:id="@+id/radar_search_view"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent" >
-	    </com.eardatek.player.dtvplayer.widget.RadarSearchView>
+	    </com.eardatek.special.player.widget.RadarSearchView>
 
 	    <TextView
 	        android:id="@+id/tv_show_info2"

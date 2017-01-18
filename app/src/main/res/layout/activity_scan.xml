@@ -6,7 +6,7 @@
              android:fitsSystemWindows="true"
     android:background="@color/grey400">
 
-    <com.eardatek.player.dtvplayer.widget.CustomToolbar
+    <com.eardatek.special.player.widget.CustomToolbar
         android:id="@+id/toolbar_scan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,20 +16,20 @@
         app:title="@string/scaning"
         app:navigationIcon="@drawable/back">
 
-    </com.eardatek.player.dtvplayer.widget.CustomToolbar>
+    </com.eardatek.special.player.widget.CustomToolbar>
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
-        <com.eardatek.player.dtvplayer.widget.ProgressWheel
+        <com.eardatek.special.player.widget.ProgressWheel
             android:id="@+id/scan_progreswheel"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center"
             app:barColor="@color/earda_background"
-            app:barWidth="6dp"
+            app:barWidth="8dp"
             app:rimColor="@color/grey600"
             app:rimWidth="8dp"
             app:contourColor="@color/transparent" />

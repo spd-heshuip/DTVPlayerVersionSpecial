@@ -61,7 +61,7 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/bg_specific_scan">
 
-        <com.eardatek.player.dtvplayer.widget.CustomEditText
+        <com.eardatek.special.player.widget.CustomEditText
             android:id="@+id/freq_edit"
             style="@style/customEditText"
             android:layout_width="wrap_content"

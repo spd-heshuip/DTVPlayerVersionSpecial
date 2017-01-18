@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:keepScreenOn="true"
-    tools:context=".actitivy.EardatekVersion2Activity"
+    tools:context="com.eardatek.special.player.actitivy.EardatekVersion2Activity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.AppBarLayout
@@ -50,7 +50,7 @@
         app:backgroundTint="#bdbdbd"
         app:rippleColor="@color/grey200"
         android:src="@drawable/scan"
-        app:layout_behavior="com.eardatek.player.dtvplayer.widget.ScrollAwareFABBehavior"
+        app:layout_behavior="com.eardatek.special.player.widget.ScrollAwareFABBehavior"
         tools:ignore="RtlHardcoded" />
 
 </android.support.design.widget.CoordinatorLayout>

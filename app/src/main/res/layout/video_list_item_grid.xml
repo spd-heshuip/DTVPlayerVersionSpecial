@@ -57,7 +57,6 @@
         android:clickable="true"
         android:foreground="?attr/selectableItemBackground"
         tools:ignore="UselessParent">
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,8 +89,8 @@
             android:id="@+id/program_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="52dp"
             android:background="@color/white"
+            android:layout_marginLeft="52dp"
             android:layout_gravity="center_vertical"
             tools:ignore="RtlHardcoded">
 
@@ -120,6 +119,16 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/program_name_text_size_grid"
                 tools:ignore="RtlHardcoded"/>
+
+            <ImageView
+                android:id="@+id/lock_encrypt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/lock_encrypt"/>
 
         </RelativeLayout>
 

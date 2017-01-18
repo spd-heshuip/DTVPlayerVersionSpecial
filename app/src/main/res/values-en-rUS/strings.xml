@@ -5,7 +5,8 @@
     <string name="action_settings">Setting</string>
     <string name="title_main">HDTV Player</string>
     <string name="app_title">HDTV Player</string>
-    <string name="scan">Scanning</string>
+
+    //EardatekVersion2Activity
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="search_toolbar">action_search</string>
@@ -23,7 +24,6 @@
     <string name="scan_tips">The DataBase does not hava Program,Please Press the Button on the top right corner to capture the Program! </string>
     <string name="scan_tips_earda">The DataBase does not hava Program,Please Press the Button on the top left corner to capture the Program! </string>
     <string name="freqtips">invalid frequency</string>
-    <string name="scantips">press again to quit scan</string>
     <string name="programguide">Program Guide</string>
     <string name="edit_program_list">edit_program_list</string>
     <string name="delete">delete</string>
@@ -50,11 +50,7 @@
     <string name="search_button">Search</string>
     <string name="advance_text">Advance Search</string>
     <string name="advance_search_tips">Please Enter Frequency(Unit: MHz)</string>
-    <string name="no_channnel">No Channel Found!</string>
     <string name="scan_immed">Scan</string>
-    <string name="welcome">Thank you for use our player！</string>
-    <string name="enjoy">Enjoy the Tv show!</string>
-    <string name="next">Next</string>
     <string name="connect_now">Connect immediately</string>
     <string name="open_wifi">Open Wifi</string>
     <string name="yes">Yes</string>
@@ -65,11 +61,6 @@
     <string name="ant_tips">Use external antenna or go somewhere else!</string>
     <string name="program_guide">Program Guide</string>
     <string name="pm_2_30">PM 2:30</string>
-    <string name="_100">100%</string>
-    <string name="connecting">Connecting</string>
-    <string name="connected">Connected</string>
-    <string name="disconnect">Disconnect</string>
-    <string name="connect">Connect</string>
     <string name="move">Move</string>
     <string name="hardwaredecode">Hardware decode</string>
     <string name="sofewaredecodetip">SoftWare decode</string>
@@ -81,19 +72,82 @@
     <string name="connectsuccess">Connect device successful!</string>
     <string name="connectfail">Connect device fail!please check the phone\'s wifi setting!</string>
     <string name="disconnecttips">The phone has disconnect to device!please check the phone\'s wifi setting</string>
-
+    <string name="harddecodeerror">Hardware Decode Error,Switch to Sofeware decode…</string>
     <string name="deletetips">Are you sure</string>
     <string name="deletecontent">The channel is unrecoverable!</string>
     <string name="deleteconfirm">The channel has been delete!</string>
+    <string name="i2c_error">USB chip has hang up!,please reboot the device!</string>
+    <string name="ok">OK</string>
+    <string name="encrypt_tips">Sorry,The program is encrypted,Unable to play content</string>
+    <string name="videocode">Video encoding:</string>
 
-    <string name="signalstrength">Signal Strength:</string>
 
+    //ScanChannelActitivy
+    <string name="scan">Scanning</string>
     <string name="channels">ch</string>
     <string name="scaning">Scaning…</string>
     <string name="_0">0</string>
     <string name="_0mhz">0MHZ</string>
+    <string name="_100">100%</string>
+    <string name="no_channnel">No Channel Found!</string>
+    <string name="scantips">press again to quit scan</string>
 
+    //HomePageActivity
     <string name="version_name">Version:</string>
+    <string name="connecting">Connecting</string>
+    <string name="connected">Connected</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="connect">Connect</string>
+    <string name="next">Next</string>
+    <string name="welcome">Thank you for use our player！</string>
+    <string name="enjoy">Enjoy the Tv show!</string>
+    <string name="downling_fr">Downloading the latest firmware…</string>
+    <string name="downl_succ">Download firmware success!</string>
+    <string name="verify_fail">verify fail,cancel the updating operation</string>
+    <string name="downl_fail">Download firmware fail,cancel the updating</string>
+    <string name="server_fail">Server cann\'t receive firmware</string>
+    <string name="verify_server_fail">Verify fail,Cancel the updating operation</string>
+    <string name="uploading_fr">Upaloading the firmware</string>
+    <string name="verify_fr">Verify firmware fail,cancel the updating</string>
+    <string name="upload_fail">Upload the firmware fail,the updating operation has been cancelled</string>
+    <string name="verify_succ">Verify the firmware success,start to update</string>
+    <string name="update_succ">Update the firmware success!</string>
+    <string name="update_fail">Update the firmware fail,Err code:</string>
+    <string name="device_uncorrect">Mismatch the deivice type,cancel the updating</string>
+    <string name="update_fm">Update firmware</string>
+    <string name="check_upda_fm_su">The device\'s firmware has the latest version!</string>
+    <string name="fr_version">\nVersion：</string>
+    <string name="fr_size">\nSize：</string>
+    <string name="fr_type">"\nFirmware type： "</string>
+    <string name="update_or_not">\nUpdate or NOT？</string>
+    <string name="wait">Wait</string>
+    <string name="confirm">Yes</string>
+    <string name="ready_update">Ready to update</string>
+    <string name="update_wifi_reque">It is need to connect to device\'s wifi，Connect？</string>
+    <string name="wifi_requ_repeat">The phone didn\'t connect to device,try again?</string>
+    <string name="cancel_update">Cancel the updating operation</string>
+    <string name="chengdu_weishi">Wise Matrix Electronics</string>
+
+
+    //SettingActitivy
+    <string name="setting">Setting</string>
+    <string name="language">Language</string>
+    <string name="def">Default</string>
+    <string name="english">English</string>
+    <string name="chinese">简体中文</string>
+    <string name="currfreq">Current Frequency</string>
+    <string name="quality">Signal Quality</string>
+    <string name="signalstrength">Signal Strength</string>
+    <string name="setting_menu">setting_menu</string>
+    <string name="nolockfreq">No Lock Frequency</string>
+    <string name="qam">Modulation:</string>
+    <string name="standard">System Standard</string>
+    <string name="nolock">Not Locked</string>
+    <string name="signalstatus">Signal Status</string>
+    <string name="company_name">Earda Technologies Co. Ltd.</string>
+    <string name="connect_update_server_fail">连接更新服务器失败，将跳过更新</string>
+    <string name="rename">Rename</string>
+    <string name="enter_name">Please input the program name</string>
 
 
 </resources>

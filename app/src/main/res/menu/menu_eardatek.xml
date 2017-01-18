@@ -2,10 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item android:id="@+id/setting"
+        android:orderInCategory="2"
+        android:title="@string/setting_menu"
+          android:icon="@drawable/setting"
+        app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/edit_list"
         android:orderInCategory="1"
         android:title="@string/edit_program_list"
         android:icon="@drawable/delete"
         app:showAsAction="ifRoom"/>
+
 
 </menu>

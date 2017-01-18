@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:ProgressWheel="http://schemas.android.com/tools"
     android:id="@+id/video_layout"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -11,7 +10,7 @@
     <FrameLayout
         android:id="@+id/player_surface_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="275dp"
+        android:layout_height="@dimen/surface_height"
         android:layout_gravity="center"
         android:background="@color/black">
 
@@ -34,19 +33,6 @@
                 android:layout_width="1dp"
                 android:layout_height="1dp"
                 />
-
-            <com.eardatek.player.dtvplayer.widget.ProgressWheel
-                android:id="@+id/pw_progress"
-                android:layout_width="@dimen/progresswheel_width_dimens"
-                android:layout_height="@dimen/progress_height_dimens"
-                android:visibility="gone"
-                ProgressWheel:barColor="@color/transparent"
-                ProgressWheel:barsLength="160dp"
-                ProgressWheel:barWidth="10dp"
-                ProgressWheel:rimColor="@color/cadetblue"
-                ProgressWheel:rimWidth="5dp"
-                ProgressWheel:contourColor="@color/black"
-                android:layout_gravity="center"/>
 
             <ImageView
                 android:id="@+id/play"
@@ -105,6 +91,7 @@
                 android:textColor="@color/white" />
 
             <TextView
+                android:id="@+id/tips_handle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="60dp"
@@ -120,10 +107,9 @@
             android:id="@+id/program_name_layout"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginBottom="48dp"
             android:visibility="gone"
             android:background="@drawable/bg_program_name_layout"
-            android:layout_gravity="bottom">
+            android:layout_gravity="center_vertical">
 
             <TextView
                 android:id="@+id/program_name"
